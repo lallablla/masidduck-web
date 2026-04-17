@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 대시보드 - 마시떡</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Container -->
+    <div id="nav-container"></div>
+
+    <!-- Admin Dashboard Section -->
+    <section class="admin-dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1><i class="fas fa-tachometer-alt"></i> 관리자 대시보드</h1>
+                <div class="admin-actions">
+                    <button class="btn btn-primary" onclick="openModal()">
+                        <i class="fas fa-plus"></i> 새 공지사항
+                    </button>
+                    <form id="logoutBtn" style="display: inline;">
+                        <button type="submit" class="btn btn-secondary">
+                            <i class="fas fa-sign-out-alt"></i> 로그아웃
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="dashboard-content">
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-bullhorn"></i>
+                        <h3>총 공지사항</h3>
+                        <p id="totalNotices">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-calendar-alt"></i>
+                        <h3>이번 달 공지</h3>
+                        <p id="monthlyNotices">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-eye"></i>
+                        <h3>총 조회수</h3>
+                        <p id="totalViews">0</p>
+                    </div>
+                </div>
+                
+                <div class="notices-section">
+                    <h2><i class="fas fa-list"></i> 공지사항 관리</h2>
+                    <div class="notices-table-container">
+                        <table class="notices-table" id="noticesTable">
+                            <thead>
+                                <tr>
+                                    <th>제목</th>
+                                    <th>유형</th>
+                                    <th>상태</th>
+                                    <th>작성일</th>
+                                    <th>조회수</th>
+                                    <th>관리</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- 공지사항 목록이 여기에 동적으로 로드됩니다 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notice Modal -->
+    <div class="modal" id="noticeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">새 공지사항 작성</h3>
+                <button class="close-btn" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="notice-form" id="noticeForm">
+                <div class="form-group">
+                    <label for="noticeTitle">제목</label>
+                    <input type="text" id="noticeTitle" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="noticeContent">내용</label>
+                    <textarea id="noticeContent" name="content" rows="10" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="noticeImage">이미지 첨부</label>
+                    <input type="file" id="noticeImage" name="image" accept="image/*">
+                    <small class="form-help">JPG, PNG, GIF 파일만 업로드 가능 (최대 5MB)</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="noticeType">유형</label>
+                    <select id="noticeType" name="type">
+                        <option value="notice">공지사항</option>
+                        <option value="event">이벤트</option>
+                        <option value="important">중요공지</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="noticeStatus">상태</label>
+                    <select id="noticeStatus" name="status">
+                        <option value="published">게시</option>
+                        <option value="draft">임시저장</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> 저장
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">
+                        <i class="fas fa-times"></i> 취소
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Notice Modal -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>공지사항 수정</h3>
+                <button class="close-btn" onclick="closeEditModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="notice-form" id="editNoticeForm" onsubmit="adminSystem.handleEditSubmit(event)">
+                <input type="hidden" id="editId" name="id">
+                
+                <div class="form-group">
+                    <label for="editTitle">제목</label>
+                    <input type="text" id="editTitle" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editContent">내용</label>
+                    <textarea id="editContent" name="content" rows="10" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editImage">이미지 첨부</label>
+                    <input type="file" id="editImage" name="image" accept="image/*">
+                    <small class="form-help">JPG, PNG, GIF 파일만 업로드 가능 (최대 5MB)</small>
+                    <div id="currentImage" class="current-image" style="display: none;">
+                        <p>현재 이미지: <span id="currentImageName"></span></p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editType">유형</label>
+                    <select id="editType" name="type">
+                        <option value="notice">공지사항</option>
+                        <option value="event">이벤트</option>
+                        <option value="important">중요공지</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editStatus">상태</label>
+                    <select id="editStatus" name="status">
+                        <option value="published">게시</option>
+                        <option value="draft">임시저장</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> 수정
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="closeEditModal()">
+                        <i class="fas fa-times"></i> 취소
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer Container -->
+    <div id="footer-container"></div>
+
+    <script src="nav.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

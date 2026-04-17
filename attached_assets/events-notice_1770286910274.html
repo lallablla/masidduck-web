@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이벤트 & 공지 - 마시떡</title>
+    <meta name="description" content="마시떡의 최신 이벤트와 공지사항을 확인하세요.">
+    <link rel="stylesheet" href="styles.css">
+    <!-- 폰트 preload로 성능 향상 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;600;700;900&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Container -->
+    <div id="nav-container"></div>
+
+
+
+    <!-- Hero Section -->
+    <section class="hero events-hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h2 class="hero-title">이벤트 & 공지</h2>
+            <p class="hero-subtitle">마시떡의 최신 소식과 특별한 이벤트를 확인하세요</p>
+        </div>
+    </section>
+
+    <!-- Events & Notice Section -->
+    <section class="events-notice-section">
+        <div class="container">
+            <!-- Events & Notice List -->
+            <div class="events-notice-list">
+                <div class="list-header">
+                    <h2>이벤트 & 공지 목록</h2>
+                    <div class="list-filters">
+                        <button class="filter-btn active" data-filter="all">전체</button>
+                        <button class="filter-btn" data-filter="event">이벤트</button>
+                        <button class="filter-btn" data-filter="notice">공지사항</button>
+                    </div>
+                </div>
+                
+                <div class="posts-grid" id="postsGrid">
+                    <!-- 게시글들이 여기에 동적으로 추가됩니다 -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 공지사항 상세보기 모달 -->
+    <div id="noticeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="notice-meta">
+                    <span id="modalType" class="notice-type-badge"></span>
+                    <span id="modalDate" class="notice-date"></span>
+                </div>
+                <div id="modalContent" class="notice-content-text"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Container -->
+    <div id="footer-container"></div>
+
+    <script src="script.js"></script>
+    <script src="events-notice.js"></script>
+    <script src="nav.js"></script>
+</body>
+</html> 

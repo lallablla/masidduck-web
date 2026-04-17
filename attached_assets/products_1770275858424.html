@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전체 제품 - 마시떡</title>
+    <meta name="description" content="마시떡의 모든 제품을 카테고리별로 확인하고 견적을 문의하세요.">
+    <link rel="stylesheet" href="styles.css">
+    <!-- 폰트 preload로 성능 향상 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;600;700;900&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Container -->
+    <div id="nav-container"></div>
+
+
+
+    <!-- Hero Section -->
+    <section class="hero products-hero">
+        <div class="hero-content">
+            <h2 class="hero-title">전체 제품</h2>
+            <p class="hero-subtitle">마시떡의 모든 제품을 카테고리별로 확인하세요</p>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products products-page">
+        <div class="container">
+            <!-- 검색 및 필터 -->
+            <div class="products-controls">
+                <div class="search-filter">
+                    <input type="text" id="productSearch" placeholder="제품명으로 검색..." class="search-input">
+                    <button class="search-btn" id="searchBtn2">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <div class="category-filter">
+                    <button class="filter-btn active" data-category="all">전체</button>
+                    <button class="filter-btn" data-category="gift">답례떡</button>
+                    <button class="filter-btn" data-category="ceremony">이바지떡</button>
+                    <button class="filter-btn" data-category="cake">떡케이크</button>
+                    <button class="filter-btn" data-category="traditional">일반떡</button>
+                    <button class="filter-btn" data-category="special">선물세트</button>
+                </div>
+            </div>
+
+            <!-- 제품 그리드 -->
+            <div class="products-grid" id="productsGrid">
+                <!-- 제품들이 JavaScript로 동적 생성됩니다 -->
+            </div>
+
+            <!-- 페이지네이션 -->
+            <div class="pagination" id="pagination">
+                <!-- 페이지 번호가 JavaScript로 동적 생성됩니다 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 인절미 세부 제품 모달 -->
+    <div id="riceCakeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>인절미 종류</h2>
+                <span class="close" onclick="closeRiceCakeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="rice-cake-grid" id="riceCakeGrid">
+                    <!-- 세부 제품들이 JavaScript로 동적 생성됩니다 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 찰떡세트모음 모달 -->
+    <div id="riceCakeSetModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>찰떡세트모음</h2>
+                <span class="close" onclick="closeRiceCakeSetModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="rice-cake-set-grid" id="riceCakeSetGrid">
+                    <!-- 찰떡세트들이 JavaScript로 동적 생성됩니다 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 찰떡케잌 이미지 갤러리 모달 -->
+    <div id="riceCakeCakeGalleryModal" class="modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h2>찰떡케잌 이미지 갤러리</h2>
+                <span class="close" onclick="closeRiceCakeCakeGalleryModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="image-gallery-container" id="riceCakeCakeGallery">
+                    <!-- 이미지들이 JavaScript로 동적 생성됩니다 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 견적 문의 모달 -->
+    <div id="quoteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="quoteModalTitle">견적 문의</h2>
+                <span class="close" onclick="closeQuoteModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="quoteForm" class="quote-form" onsubmit="handleQuoteSubmit(event)">
+                    <div class="form-group">
+                        <label for="quoteProduct">제품명</label>
+                        <input type="text" id="quoteProduct" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="quoteName">이름 *</label>
+                        <input type="text" id="quoteName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quoteEmail">이메일 *</label>
+                        <input type="email" id="quoteEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quotePhone">연락처 *</label>
+                        <input type="tel" id="quotePhone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quoteQuantity">수량</label>
+                        <input type="text" id="quoteQuantity" name="quantity" placeholder="예: 100개, 1말 등">
+                    </div>
+                    <div class="form-group">
+                        <label for="quoteMessage">문의 내용</label>
+                        <textarea id="quoteMessage" name="message" rows="4" placeholder="상세한 요구사항이나 문의사항을 입력해주세요"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="quoteDate">희망 날짜</label>
+                        <input type="date" id="quoteDate" name="date">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">견적 문의하기</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeQuoteModal()">취소</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Container -->
+    <div id="footer-container"></div>
+
+    <script src="script.js"></script>
+    <script src="products.js"></script>
+    <script src="nav.js"></script>
+</body>
+</html>

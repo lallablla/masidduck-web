@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마시떡 - 정성, 새로운 시작을 빚다</title>
+    <meta name="description" content="용인 마시떡 - 전통과 현대가 만나는 프리미엄 떡집. 10여년간 이어온 정성과 맛의 새로운 시작을 경험하세요.">
+    <link rel="stylesheet" href="styles.css">
+    <!-- 폰트 preload로 성능 향상 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;600;700;900&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Container -->
+    <div id="nav-container"></div>
+
+
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <!-- Background Video -->
+        <div class="hero-video-container">
+            <video class="hero-video" autoplay muted loop playsinline preload="metadata">
+                <source src="./hero2.mp4" type="video/mp4">
+                <!-- 비디오를 지원하지 않는 브라우저를 위한 대체 이미지 -->
+                <div class="hero-fallback-image"></div>
+            </video>
+        </div>
+        
+        <div class="hero-overlay"></div>
+        
+        <div class="hero-content">
+            <h2 class="hero-title">정성, 새로운 시작을 빚다</h2>
+            <p class="hero-subtitle">일상에 스며든, 당신을 위한 프리미엄 다과</p>
+            <div class="hero-buttons">
+                <a href="products.html" class="btn btn-primary">제품 보러가기</a>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Products -->
+    <section class="products" id="products">
+        <div class="container">
+            <div class="section-header">
+                <h2>대표 제품</h2>
+                <p>마시떡의 인기 제품들을 만나보세요</p>
+            </div>
+            
+            <!-- 맞춤 제작 안내 -->
+            <div class="custom-order-info">
+                <div class="info-card">
+                    <i class="fas fa-star"></i>
+                    <h3>맞춤 제작</h3>
+                    <p>고객의 요구에 맞춘 특별한 떡을 제작해드립니다</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-gift"></i>
+                    <h3>답례떡 전문</h3>
+                    <p>결혼, 돌, 백일 등 특별한 날에 최적화된 답례떡</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-users"></i>
+                    <h3>대량 맞춤</h3>
+                    <p>수량에 맞춘 맞춤 제작으로 합리적인 가격</p>
+                </div>
+            </div>
+
+            <div class="product-categories">
+                <button class="category-btn active" data-category="all">전체</button>
+                <button class="category-btn" data-category="gift">답례떡</button>
+                <button class="category-btn" data-category="ceremony">이바지떡</button>
+                <button class="category-btn" data-category="cake">떡케이크</button>
+                <button class="category-btn" data-category="traditional">일반떡</button>
+                <button class="category-btn" data-category="special">선물세트</button>
+            </div>
+            
+            <!-- 전체 제품 보기 버튼 -->
+            <div class="view-all-products">
+                <a href="products.html" class="btn btn-secondary">
+                    <i class="fas fa-th-large"></i> 전체 제품 보기
+                </a>
+            </div>
+            
+
+            
+            <div class="products-grid">
+                <!-- 답례떡 -->
+                <div class="product-card" data-category="gift">
+                    <div class="product-image">
+                        <img src="영양찰떡+백설기+송편.jpg" alt="3구답례떡[영양+설기+송편]" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-placeholder" style="display: none;">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>3구답례떡[영양+설기+송편]</h3>
+                        <p>영양찰떡, 설기, 송편으로 구성된 프리미엄 답례떡</p>
+                        <div class="product-details">
+                            <span class="category-tag">답례떡</span>
+                            <span class="price-info">가격 문의</span>
+                        </div>
+                        <button class="btn btn-primary quote-btn" data-product="3구답례떡[영양+설기+송편]">
+                            <i class="fas fa-calculator"></i> 견적 문의
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 4구답례떡 -->
+                <div class="product-card" data-category="gift">
+                    <div class="product-image">
+                        <img src="4구답례떡.jpg" alt="4구답례떡" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-placeholder" style="display: none;">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>4구답례떡</h3>
+                        <p>4가지 떡으로 구성된 럭셔리 답례떡</p>
+                        <div class="product-details">
+                            <span class="category-tag">답례떡</span>
+                            <span class="price-info">가격 문의</span>
+                        </div>
+                        <button class="btn btn-primary quote-btn" data-product="4구답례떡">
+                            <i class="fas fa-calculator"></i> 견적 문의
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3구답례떡[백설기+경단+꿀떡] -->
+                <div class="product-card" data-category="gift">
+                    <div class="product-image">
+                        <img src="경단+백설기+꿀떡.jpg" alt="3구답례떡[백설기+경단+꿀떡]" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-placeholder" style="display: none;">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>3구답례떡[백설기+경단+꿀떡]</h3>
+                        <p>백설기, 경단, 꿀떡으로 구성된 특별한 답례떡</p>
+                        <div class="product-details">
+                            <span class="category-tag">답례떡</span>
+                            <span class="price-info">가격 문의</span>
+                        </div>
+                        <button class="btn btn-primary quote-btn" data-product="3구답례떡[백설기+경단+꿀떡]">
+                            <i class="fas fa-calculator"></i> 견적 문의
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2구답례떡[영양찰떡+송편] -->
+                <div class="product-card" data-category="gift">
+                    <div class="product-image">
+                        <img src="영양+송편2.JPEG" alt="2구답례떡[영양찰떡+송편]" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-placeholder" style="display: none;">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>2구답례떡[영양찰떡+송편]</h3>
+                        <p>영양찰떡과 송편으로 구성된 답례떡</p>
+                        <div class="product-details">
+                            <span class="category-tag">답례떡</span>
+                            <span class="price-info">가격 문의</span>
+                        </div>
+                        <button class="btn btn-primary quote-btn" data-product="2구답례떡[영양찰떡+송편]">
+                            <i class="fas fa-calculator"></i> 견적 문의
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2구답례떡[백설기+경단] -->
+                <div class="product-card" data-category="gift">
+                    <div class="product-image">
+                        <img src="백설기+경단.jpg" alt="2구답례떡[백설기+경단]" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-placeholder" style="display: none;">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>2구답례떡[백설기+경단]</h3>
+                        <p>백설기와 경단으로 구성된 답례떡</p>
+                        <div class="product-details">
+                            <span class="category-tag">답례떡</span>
+                            <span class="price-info">가격 문의</span>
+                        </div>
+                        <button class="btn btn-primary quote-btn" data-product="2구답례떡[백설기+경단]">
+                            <i class="fas fa-calculator"></i> 견적 문의
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2구답례떡[백설기+송편] -->
+                <div class="product-card" data-category="gift">
+                    <div class="product-image">
+                        <img src="백설기+송편 (2).jpg" alt="2구답례떡[백설기+송편]" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-placeholder" style="display: none;">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>2구답례떡[백설기+송편]</h3>
+                        <p>백설기와 송편으로 구성된 답례떡</p>
+                        <div class="product-details">
+                            <span class="category-tag">답례떡</span>
+                            <span class="price-info">가격 문의</span>
+                        </div>
+                        <button class="btn btn-primary quote-btn" data-product="2구답례떡[백설기+송편]">
+                            <i class="fas fa-calculator"></i> 견적 문의
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2구답례떡[백설기+꿀떡] -->
+                <div class="product-card" data-category="gift">
+                    <div class="product-image">
+                        <img src="백설기+꿀떡.jpg" alt="2구답례떡[백설기+꿀떡]" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-placeholder" style="display: none;">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>2구답례떡[백설기+꿀떡]</h3>
+                        <p>백설기와 꿀떡으로 구성된 답례떡</p>
+                        <div class="product-details">
+                            <span class="category-tag">답례떡</span>
+                            <span class="price-info">가격 문의</span>
+                        </div>
+                        <button class="btn btn-primary quote-btn" data-product="2구답례떡[백설기+꿀떡]">
+                            <i class="fas fa-calculator"></i> 견적 문의
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 돌/백일떡 상차림세트 -->
+                <div class="product-card" data-category="gift">
+                    <div class="product-image">
+                        <img src="돌백일떡 상차림세트.png" alt="돌/백일떡 상차림세트" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-placeholder" style="display: none;">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>돌/백일떡 상차림세트</h3>
+                        <p>돌잔치, 백일잔치를 위한 특별한 상차림 세트</p>
+                        <div class="product-details">
+                            <span class="category-tag">답례떡</span>
+                            <span class="price-info">가격 문의</span>
+                        </div>
+                        <button class="btn btn-primary quote-btn" data-product="돌/백일떡 상차림세트">
+                            <i class="fas fa-calculator"></i> 견적 문의
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 이바지떡 중 -->
+                <div class="product-card" data-category="ceremony">
+                    <div class="product-image">
+                        <img src="5호2.JPG" alt="이바지떡 중" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-placeholder" style="display: none;">
+                            <i class="fas fa-pray"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>이바지떡 중</h3>
+                        <p>1말, 3단구성, 90-100개 내외</p>
+                        <div class="product-details">
+                            <span class="category-tag">이바지떡</span>
+                            <span class="price-info">₩200,000</span>
+                        </div>
+                        <button class="btn btn-primary quote-btn" data-product="이바지떡 중">
+                            <i class="fas fa-calculator"></i> 견적 문의
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 이바지떡 소 -->
+                <div class="product-card" data-category="ceremony">
+                    <div class="product-image">
+                        <img src="KakaoTalk_20250916_160553448_01.jpg" alt="이바지떡 소" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-placeholder" style="display: none;">
+                            <i class="fas fa-pray"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>이바지떡 소</h3>
+                        <p>반말, 2단구성, 60-70개 내외</p>
+                        <div class="product-details">
+                            <span class="category-tag">이바지떡</span>
+                            <span class="price-info">₩150,000</span>
+                        </div>
+                        <button class="btn btn-primary quote-btn" data-product="이바지떡 소">
+                            <i class="fas fa-calculator"></i> 견적 문의
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 이바지떡 대 -->
+                <div class="product-card" data-category="ceremony">
+                    <div class="product-image">
+                        <img src="thumb-2001098473_tAbKjNxC_c3aa069f48c059bc5b48f50fdeca3a8de29d5f47_835x1113.jpg" alt="이바지떡 대" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-placeholder" style="display: none;">
+                            <i class="fas fa-pray"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>이바지떡 대</h3>
+                        <p>1말반, 3단구성, 120-130개 내외</p>
+                        <div class="product-details">
+                            <span class="category-tag">이바지떡</span>
+                            <span class="price-info">₩250,000</span>
+                        </div>
+                        <button class="btn btn-primary quote-btn" data-product="이바지떡 대">
+                            <i class="fas fa-calculator"></i> 견적 문의
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 찰떡케잌 -->
+                <div class="product-card" data-category="cake">
+                    <div class="product-image">
+                        <img src="찰떡케잌.png" alt="찰떡케잌" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-placeholder" style="display: none;">
+                            <i class="fas fa-birthday-cake"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>찰떡케잌</h3>
+                        <p>3-4가지 찰떡으로 구성된 특별한 케이크</p>
+                        <div class="product-details">
+                            <span class="category-tag">떡케이크</span>
+                            <span class="price-info">소 ₩60,000 (40개 내외) / 중 ₩80,000 (60개 내외) / 대 ₩100,000 (80개 내외)</span>
+                        </div>
+                        <button class="btn btn-primary quote-btn" data-product="찰떡케잌">
+                            <i class="fas fa-calculator"></i> 견적 문의
+                        </button>
+                    </div>
+                </div>
+
+
+
+
+
+                <!-- 쑥콩설기 -->
+                <div class="product-card" data-category="traditional">
+                    <div class="product-image">
+                        <img src="쑥콩설기.png" alt="쑥콩설기" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-placeholder" style="display: none;">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>쑥콩설기</h3>
+                        <p>서리태, 밤, 호박고지 외 각종 견과류 등 포함</p>
+                        <div class="product-details">
+                            <span class="category-tag">일반떡</span>
+                            <span class="price-info">1말 ₩130,000 (50조각) / 반말 ₩65,000 (25조각)</span>
+                        </div>
+                        <button class="btn btn-primary quote-btn" data-product="쑥콩설기">
+                            <i class="fas fa-calculator"></i> 견적 문의
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 인절미 -->
+                <div class="product-card clickable" data-category="traditional" onclick="showRiceCakeModal()">
+                    <div class="product-image">
+                        <img src="인절미.png" alt="인절미" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-placeholder" style="display: none;">
+                            <i class="fas fa-rice"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>인절미</h3>
+                        <p>쫄깃한 식감의 전통 인절미</p>
+                        <div class="product-details">
+                            <span class="category-tag">일반떡</span>
+                            <span class="price-info">1말 ₩120,000 / 반말 ₩65,000</span>
+                        </div>
+                        <span class="view-hint">클릭하여 세부 제품 보기</span>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <!-- 종합2호 찰떡세트 -->
+                <div class="product-card" data-category="special">
+                    <div class="product-image">
+                        <img src="종합2호찰떡세트.png" alt="종합2호 찰떡세트" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-placeholder" style="display: none;">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>종합2호 찰떡세트</h3>
+                        <p>2가지 찰떡으로 구성된 프리미엄 선물세트</p>
+                        <div class="product-details">
+                            <span class="category-tag">선물세트</span>
+                            <span class="price-info">가격 문의</span>
+                        </div>
+                        <button class="btn btn-primary quote-btn" data-product="종합2호 찰떡세트">
+                            <i class="fas fa-calculator"></i> 견적 문의
+                        </button>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+            <!-- 맞춤 제작 문의 섹션 -->
+            <div class="custom-order-section">
+                <div class="section-header">
+                    <h3>맞춤 제작 문의</h3>
+                    <p>특별한 요구사항이 있으시거나 대량 주문을 원하시면 언제든 문의해주세요</p>
+                </div>
+                <div class="contact-options">
+                    <a href="tel:031-334-0015" class="contact-option">
+                        <i class="fas fa-phone"></i>
+                        <span>전화 문의</span>
+                    </a>
+                    <a href="https://open.kakao.com/your-kakao" class="contact-option" target="_blank">
+                        <i class="fab fa-kickstarter-k"></i>
+                        <span>카카오톡 문의</span>
+                    </a>
+                    <button class="contact-option" id="emailInquiryBtn">
+                        <i class="fas fa-envelope"></i>
+                        <span>이메일 문의</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 인사말 섹션 -->
+    <section class="greeting-section">
+        <div class="container">
+            <div class="greeting-content">
+                <div class="greeting-text">
+                    <h2>마시떡을 찾아주셔서 감사합니다</h2>
+                    <p>안녕하세요. 맛과 건강을 함께 빚는 수제떡 전문점, 마시떡입니다.</p>
+                    <p>수도없이 지난 10여년간 맛있고 건강한 떡을 위해 연구를 엄청 하신 것 같아. 내 가족과 아이가 먹는다는 마음으로 자연이 준 좋은 재료와 신선한 재료만을 엄선하여, 매일 정성껏 빚어 당일 판매합니다.</p>
+                    <a href="greeting.html" class="btn btn-outline">인사말 더 보기</a>
+                </div>
+                <div class="greeting-image">
+                    <img src="brandstory.png" alt="마시떡 인사말" class="greeting-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Reviews -->
+    <section class="reviews">
+        <div class="container">
+            <div class="section-header">
+                <h2>구매후기</h2>
+                <p>상품을 이용하신 고객님들의 리얼 후기입니다!</p>
+            </div>
+            <div class="reviews-carousel-container">
+                <button class="carousel-btn carousel-prev" id="carouselPrev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="reviews-carousel" id="reviewsCarousel">
+                    <div class="review-card">
+                        <div class="review-image">
+                            <div class="image-placeholder">
+                                <i class="fas fa-image"></i>
+                                <p>인절미</p>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <h3>부모님께 선물했는데 좋아하시네요</h3>
+                            <p>"부모님께 선물했는데 정말 좋아하시네요. 마시떡의 정성이 느껴져요!"</p>
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="reviewer">천** 님</span>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-image">
+                            <div class="image-placeholder">
+                                <i class="fas fa-image"></i>
+                                <p>송편</p>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <h3>배송, 포장, 맛 다 좋아요</h3>
+                            <p>"자주 구매합니다. 소량주문도 가능하고 배송도 정말 빠르고 정확해요!"</p>
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="reviewer">김** 님</span>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-image">
+                            <div class="image-placeholder">
+                                <i class="fas fa-image"></i>
+                                <p>티라떡</p>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <h3>인생 인절미에요~</h3>
+                            <p>"제사떡을 동네떡집에서 하다가 올해 처음으로 마시떡으로 했는데 정말 맛있어요!"</p>
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="reviewer">이** 님</span>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-image">
+                            <div class="image-placeholder">
+                                <i class="fas fa-image"></i>
+                                <p>선물세트</p>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <h3>맛있어요</h3>
+                            <p>"삼색송편 맛있어요! 선물용으로도 정말 좋고 가족들이 모두 좋아해요."</p>
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="reviewer">김** 님</span>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-image">
+                            <div class="image-placeholder">
+                                <i class="fas fa-image"></i>
+                                <p>모듬떡</p>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <h3>맛있어요~~^^</h3>
+                            <p>"먹어본 것 중에 제일 맛있어요. 마시떡만의 특별한 맛이 있어요!"</p>
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="reviewer">김** 님</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn carousel-next" id="carouselNext">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Notice Section -->
+    <div class="latest-notice">
+        <div class="notice-header">
+            <h3><i class="fas fa-bullhorn"></i> 최신 공지사항</h3>
+            <a href="events-notice.html" class="btn btn-outline">
+                <i class="fas fa-list"></i> 전체보기
+            </a>
+        </div>
+        <div class="notice-content" id="latestNoticeContent">
+            <!-- 최신 공지사항이 여기에 동적으로 로드됩니다 -->
+        </div>
+    </div>
+
+    <!-- Contact -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>CUSTOMER CENTER | 고객센터</h2>
+                <p>궁금하신 사항은 문의하시면 친절히 상담해 드리겠습니다</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h3>전화 문의</h3>
+                            <p>031-334-0015</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-mobile-alt"></i>
+                        <div>
+                            <h3>모바일</h3>
+                            <p>010-3141-7697</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>이메일</h3>
+                            <p>leesh7697@naver.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h3>영업시간</h3>
+                            <p>월요일~토요일 04:00~19:00<br>정기휴무: 매주 일요일</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>주소</h3>
+                            <p>경기도 용인시 처인구 명지로16번길 9-24, 진영리더스빌 109-110호</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-university"></i>
+                        <div>
+                            <h3>계좌번호</h3>
+                            <p>NH 농협 351-0992-9148-23<br>예금주: 이수현</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3>온라인 문의</h3>
+                    <form>
+                        <div class="form-group">
+                            <input type="text" name="name" placeholder="이름" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="이메일" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" name="phone" placeholder="연락처">
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" placeholder="문의내용" rows="5" required></textarea>
+                        </div>
+                        
+                        <!-- 개인정보 수집 동의 -->
+                        <div class="form-group privacy-agreement">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="privacyAgreement" required>
+                                <span class="agreement-text">
+                                    <a href="privacy-policy.html" target="_blank">개인정보 수집 및 이용</a>에 동의합니다.
+                                </span>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">문의하기</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 공지사항 상세보기 모달 -->
+    <div id="noticeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="notice-meta">
+                    <span id="modalType" class="notice-type-badge"></span>
+                    <span id="modalDate" class="notice-date"></span>
+                </div>
+                <div id="modalContent" class="notice-content-text"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 인절미 세부 제품 모달 -->
+    <div id="riceCakeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>인절미 종류</h2>
+                <span class="close" onclick="closeRiceCakeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="rice-cake-grid" id="riceCakeGrid">
+                    <!-- 세부 제품들이 JavaScript로 동적 생성됩니다 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Container -->
+    <div id="footer-container"></div>
+
+    <script src="script.js"></script>
+    <script src="nav.js"></script>
+</body>
+</html> 

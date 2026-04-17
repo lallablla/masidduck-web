@@ -1,0 +1,70 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme inline {
+  --color-background: hsl(40 20% 97%); /* #F9F7F2 - Warm Ivory */
+  --color-foreground: hsl(20 30% 20%); /* #422D22 - Deep Brown */
+  
+  --color-primary: hsl(25 40% 35%); /* #7D4E2F - Primary Brown */
+  --color-primary-foreground: hsl(40 20% 97%);
+  
+  --color-secondary: hsl(120 15% 30%); /* #415846 - Traditional Green */
+  --color-secondary-foreground: hsl(40 20% 97%);
+  
+  --color-accent: hsl(35 50% 90%); /* #F2EBD9 - Light Beige Accent */
+  --color-accent-foreground: hsl(20 30% 20%);
+  
+  --color-muted: hsl(30 15% 90%);
+  --color-muted-foreground: hsl(20 10% 40%);
+  
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(20 30% 20%);
+  
+  --color-border: hsl(30 10% 85%);
+  --color-input: hsl(30 10% 85%);
+  
+  --radius-sm: 0.2rem;
+  --radius-md: 0.4rem;
+  --radius-lg: 0.6rem;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background-color: var(--color-background);
+    color: #333333;
+    line-height: 1.7;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-foreground);
+  }
+  .font-serif {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+  }
+  .font-sans {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  }
+}
+
+/* Custom Utilities */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Hide scrollbar for clean horizontal scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
