@@ -13,14 +13,11 @@ export default function InstaFeed() {
         </div>
 
         {/* Instagram Widget Placeholder - 여기에 위젯 코드가 들어갑니다 */}
-        <div id="insta-feed-placeholder" className="bg-white rounded-xl border border-dashed border-border min-h-[300px] flex items-center justify-center text-muted-foreground">
-          <div className="text-center p-8">
-             <p className="mb-2 font-bold text-foreground">Instagram Feed Widget Area</p>
-             <p className="text-sm">나중에 여기에 Elfsight 위젯 코드를 붙여넣으세요.</p>
-             <code className="block mt-4 bg-muted p-2 rounded text-xs text-left">
-               &lt;div class="elfsight-app-..."&gt;&lt;/div&gt;
-             </code>
-          </div>
+        {/* Elfsight Instagram Feed 연결 */}
+      <div className="w-full">
+        <script src="https://elfsightcdn.com/platform.js" async></script>
+        <div className="elfsight-app-d45f8658-1d42-47d5-aee3-c60f15e07a5e" data-elfsight-app-lazy></div>
+      </div>
         </div>
       </div>
     </section>
