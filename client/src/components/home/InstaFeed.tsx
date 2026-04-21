@@ -7,7 +7,12 @@ export default function InstaFeed() {
             <h2 className="text-2xl font-serif font-bold mb-2">@masidduck</h2>
             <p className="text-muted-foreground">마시떡의 일상을 인스타그램에서 만나보세요</p>
           </div>
-          <a href="https://instagram.com/masidduck" target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium">
+          <a
+            href="https://instagram.com/masidduck"
+            target="_blank"
+            rel="noreferrer"
+            className="text-primary hover:underline font-medium"
+          >
             Follow Us
           </a>
         </div>
