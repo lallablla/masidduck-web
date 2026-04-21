@@ -8,13 +8,15 @@ export default function InstaFeed() {
             <p className="text-muted-foreground">마시떡의 일상을 인스타그램에서 만나보세요</p>
           </div>
           <a href="https://instagram.com/masidduck" target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium">
-             Follow Us
+            Follow Us
           </a>
         </div>
 
-       {/* Elfsight Instagram Feed 액자 */}
-      <div className="w-full">
-        <div className="elfsight-app-d45f8658-1d42-47d5-aee3-c60f15e07a5e" data-elfsight-app-lazy></div>
+        {/* Elfsight Instagram Feed 액자 */}
+        <div className="w-full">
+          <div className="elfsight-app-d45f8658-1d42-47d5-aee3-c60f15e07a5e" data-elfsight-app-lazy></div>
+        </div>
       </div>
+    </section>
   );
 }
