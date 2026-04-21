@@ -12,9 +12,8 @@ export default function InstaFeed() {
           </a>
         </div>
 
-       {/* Elfsight Instagram Feed 연결 */}
+       {/* Elfsight Instagram Feed 액자 */}
       <div className="w-full">
-        <script src="https://elfsightcdn.com/platform.js" async></script>
         <div className="elfsight-app-d45f8658-1d42-47d5-aee3-c60f15e07a5e" data-elfsight-app-lazy></div>
       </div>
   );
