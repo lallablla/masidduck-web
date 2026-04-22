@@ -88,6 +88,12 @@ app.get("/api/rice-cakes", requireAdmin, async (_req: Request, res: Response) =>
   return res.json(cakes);
 });
 
+// ── 관리자: 모두 끄기 ─────────────────────────────────────
+app.post("/api/rice-cakes/reset", requireAdmin, async (_req: Request, res: Response) => {
+  await db.update(riceCakes).set({ available: false, updatedAt: new Date() });
+  return res.json({ ok: true });
+});
+
 // ── 관리자: 떡 추가 ───────────────────────────────────────
 app.post("/api/rice-cakes", requireAdmin, async (req: Request, res: Response) => {
   const result = insertRiceCakeSchema.safeParse(req.body);
