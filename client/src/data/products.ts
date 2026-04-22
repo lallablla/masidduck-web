@@ -557,7 +557,7 @@ export const products: Product[] = [
     id: 901,
     name: "선물세트 5호 (25구)",
     description: "영양찰떡, 호박찰떡, 쑥찰떡, 백설기, 약식 등 5가지 종류의 떡 25개로 구성된 풍성한 선물 세트입니다.",
-    category: "giftset",
+    category: "gift",
     price: "가격 문의",
     image: "/images/products/gift-set-5ho-2.jpg"
   },
@@ -565,7 +565,7 @@ export const products: Product[] = [
     id: 902,
     name: "프리미엄 선물세트 (대)",
     description: "쑥찰떡, 영양찰떡, 호박찰떡, 약식, 쑥모찌 등 다양한 찰떡으로 구성된 대형 선물 세트입니다.",
-    category: "giftset",
+    category: "gift",
     price: "가격 문의",
     image: "/images/products/gift-set-mixed-1.jpg"
   },
@@ -573,7 +573,7 @@ export const products: Product[] = [
     id: 903,
     name: "프리미엄 선물세트 (중)",
     description: "영양찰떡, 호박찰떡, 백설기, 쑥찰떡 등 15구로 구성된 선물 세트입니다. 고급 포장으로 격식 있는 자리에 어울립니다.",
-    category: "giftset",
+    category: "gift",
     price: "가격 문의",
     image: "/images/products/gift-set-mixed-2.jpg"
   },
@@ -581,7 +581,7 @@ export const products: Product[] = [
     id: 904,
     name: "프리미엄 선물세트 (특대)",
     description: "영양찰떡, 약식, 백설기, 호박찰떡, 콩설기 5종류의 떡 40개로 구성된 특대형 선물 세트입니다.",
-    category: "giftset",
+    category: "gift",
     price: "가격 문의",
     image: "/images/products/gift-set-mixed-3.jpg"
   },

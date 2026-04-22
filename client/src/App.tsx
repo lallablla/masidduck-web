@@ -9,9 +9,10 @@ import BrandStory from "@/pages/BrandStory";
 import BrandIdentity from "@/pages/BrandIdentity";
 import Contact from "@/pages/Contact";
 import Haccp from "@/pages/Haccp";
-
 import Terms from "@/pages/Terms";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import Admin from "@/pages/Admin";
+import Today from "@/pages/Today";
 
 function Router() {
   return (
@@ -24,6 +25,8 @@ function Router() {
       <Route path="/haccp" component={Haccp} />
       <Route path="/terms" component={Terms} />
       <Route path="/privacy-policy" component={PrivacyPolicy} />
+      <Route path="/admin" component={Admin} />
+      <Route path="/today" component={Today} />
       <Route component={NotFound} />
     </Switch>
   );
