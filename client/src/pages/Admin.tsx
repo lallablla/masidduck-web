@@ -4,7 +4,7 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { LogOut, Search, PowerOff, Plus, X } from "lucide-react";
+import { LogOut, Search, PowerOff, Plus, X, Trash2 } from "lucide-react";
 
 type RiceCake = {
   id: number;
@@ -352,6 +352,18 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
     onError: () => toast({ title: "실패", variant: "destructive" }),
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: (id: number) =>
+      apiCall<{ ok: boolean }>(`/rice-cakes/${id}`, { method: "DELETE" }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["riceCakes"] });
+      toast({ title: "삭제됐어요" });
+    },
+    onError: (err) => {
+      alert(err instanceof Error ? err.message : "삭제 실패");
+    },
+  });
+
   const handleReset = () => {
     if (availableCount === 0) { toast({ title: "이미 모두 꺼져 있어요" }); return; }
     if (window.confirm(`판매 중인 떡 ${availableCount}개를 모두 끌까요?`)) {
@@ -461,6 +473,16 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
                 aria-label={`${cake.name} ${cake.available ? "판매 중" : "판매 안함"}`}
                 className="flex-shrink-0"
               />
+              <button
+                onClick={() => {
+                  if (window.confirm(`정말 ${cake.name}을(를) 삭제하시겠어요?`))
+                    deleteMutation.mutate(cake.id);
+                }}
+                className="p-1.5 rounded-lg text-muted-foreground hover:text-red-500 hover:bg-red-50 transition-colors flex-shrink-0"
+                aria-label={`${cake.name} 삭제`}
+              >
+                <Trash2 size={15} />
+              </button>
             </div>
           ))
         )}
