@@ -25,7 +25,9 @@ export default function ProductCard({ product }: ProductCardProps) {
             <div className="text-xs text-primary font-medium mb-2 uppercase tracking-wider">{product.category}</div>
             <h3 className="font-bold text-lg mb-2 text-foreground group-hover:text-primary transition-colors">{product.name}</h3>
             <p className="text-muted-foreground text-sm line-clamp-2 mb-4">{product.description}</p>
-            <div className="font-serif font-bold text-foreground text-lg">{product.price}</div>
+            <div className="font-serif font-bold text-foreground text-lg">
+              {product.category === "regular" ? "가격 문의" : product.price}
+            </div>
           </div>
         </div>
       </DialogTrigger>
@@ -45,7 +47,9 @@ export default function ProductCard({ product }: ProductCardProps) {
             
             <div className="bg-white p-4 rounded-lg border border-[#EBE5D9] mb-8">
               <p className="text-sm text-center text-foreground font-medium">
-                가격: <span className="text-xl font-serif font-bold ml-2">{product.price}</span>
+                가격: <span className="text-xl font-serif font-bold ml-2">
+                  {product.category === "regular" ? "가격 문의" : product.price}
+                </span>
               </p>
             </div>
 
