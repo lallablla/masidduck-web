@@ -5,6 +5,7 @@ import { drizzle } from "drizzle-orm/neon-http";
 import { eq, asc } from "drizzle-orm";
 import { pgTable, text, integer, boolean, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
+import { put } from "@vercel/blob";
 import type { Request, Response, NextFunction } from "express";
 
 // DB 연결
@@ -117,6 +118,25 @@ app.patch("/api/rice-cakes/:id", requireAdmin, async (req: Request, res: Respons
     .returning();
   if (!updated) return res.status(404).json({ message: "떡을 찾을 수 없습니다" });
   return res.json(updated);
+});
+
+// ── 관리자: 이미지 업로드 (Vercel Blob) ───────────────────
+app.post("/api/upload", requireAdmin, async (req: Request, res: Response) => {
+  const { contentType, data } = req.body as { contentType?: string; data?: string };
+  if (!data || !contentType) {
+    return res.status(400).json({ message: "파일 데이터가 없어요" });
+  }
+  const base64 = data.replace(/^data:[\w/+]+;base64,/, "");
+  const buffer = Buffer.from(base64, "base64");
+  const ext = contentType.includes("png") ? "png" : contentType.includes("webp") ? "webp" : "jpg";
+  const name = `cakes/${Date.now()}.${ext}`;
+  try {
+    const blob = await put(name, buffer, { access: "public", contentType });
+    return res.json({ url: blob.url });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    return res.status(500).json({ message: `이미지 업로드 실패: ${msg}` });
+  }
 });
 
 // ── 관리자: 떡 삭제 ───────────────────────────────────────

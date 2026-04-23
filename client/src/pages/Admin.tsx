@@ -1,10 +1,10 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { LogOut, Search, PowerOff } from "lucide-react";
+import { LogOut, Search, PowerOff, Plus, X } from "lucide-react";
 
 type RiceCake = {
   id: number;
@@ -32,6 +32,211 @@ async function apiCall<T>(path: string, options: RequestInit = {}): Promise<T> {
   const data = await res.json();
   if (!res.ok) throw new Error(data.message || "오류가 발생했습니다");
   return data as T;
+}
+
+async function compressImage(file: File): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const objUrl = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(objUrl);
+      const MAX = 1200;
+      let { width, height } = img;
+      if (width > MAX || height > MAX) {
+        if (width > height) { height = Math.round((height / width) * MAX); width = MAX; }
+        else { width = Math.round((width / height) * MAX); height = MAX; }
+      }
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      canvas.getContext("2d")!.drawImage(img, 0, 0, width, height);
+      canvas.toBlob(
+        (b) => (b ? resolve(b) : reject(new Error("압축 실패"))),
+        "image/jpeg",
+        0.85
+      );
+    };
+    img.onerror = () => { URL.revokeObjectURL(objUrl); reject(new Error("이미지 로딩 실패")); };
+    img.src = objUrl;
+  });
+}
+
+async function blobToBase64(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+}
+
+// ─── 새 떡 추가 모달 ──────────────────────────────────────────
+function AddCakeModal({ onClose, onAdded }: { onClose: () => void; onAdded: () => void }) {
+  const [name, setName] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState("");
+  const [loading, setLoading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    return () => { if (preview) URL.revokeObjectURL(preview); };
+  }, [preview]);
+
+  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    setFile(f);
+    if (preview) URL.revokeObjectURL(preview);
+    setPreview(URL.createObjectURL(f));
+  };
+
+  const removeFile = () => {
+    setFile(null);
+    if (preview) URL.revokeObjectURL(preview);
+    setPreview("");
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim()) return;
+    setLoading(true);
+    try {
+      let imageUrl = "";
+      if (file) {
+        const compressed = await compressImage(file);
+        const base64 = await blobToBase64(compressed);
+        const token = getToken();
+        const uploadRes = await fetch("/api/upload", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify({ contentType: "image/jpeg", data: base64 }),
+        });
+        const uploadJson = await uploadRes.json();
+        if (!uploadRes.ok) throw new Error(uploadJson.message || "이미지 업로드 실패");
+        imageUrl = uploadJson.url;
+      }
+
+      await apiCall<RiceCake>("/rice-cakes", {
+        method: "POST",
+        body: JSON.stringify({ name: name.trim(), imageUrl, description: "", available: false, sortOrder: 0 }),
+      });
+
+      toast({ title: "추가됐어요!", description: `${name.trim()} 등록 완료` });
+      onAdded();
+      onClose();
+    } catch (err) {
+      toast({
+        title: "추가 실패",
+        description: err instanceof Error ? err.message : "오류가 발생했습니다",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative bg-white rounded-t-2xl sm:rounded-2xl w-full max-w-sm shadow-xl">
+        {/* 헤더 */}
+        <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-border">
+          <h2 className="font-serif text-base font-semibold text-foreground">새 떡 추가</h2>
+          <button
+            type="button"
+            onClick={onClose}
+            className="p-1.5 rounded-lg hover:bg-muted transition-colors"
+          >
+            <X size={18} className="text-muted-foreground" />
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="px-5 py-4 space-y-4">
+          {/* 이름 */}
+          <div>
+            <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+              떡 이름 <span className="text-red-400">*</span>
+            </label>
+            <Input
+              placeholder="예) 무지개떡, 인절미..."
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="h-11"
+              autoFocus
+              maxLength={50}
+            />
+          </div>
+
+          {/* 사진 */}
+          <div>
+            <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+              사진 <span className="text-muted-foreground/60">(선택)</span>
+            </label>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFile}
+              className="hidden"
+            />
+            {preview ? (
+              <div className="relative">
+                <img
+                  src={preview}
+                  alt="미리보기"
+                  className="w-full h-48 object-cover rounded-xl"
+                />
+                <button
+                  type="button"
+                  onClick={removeFile}
+                  className="absolute top-2 right-2 bg-black/60 text-white rounded-full p-1.5 hover:bg-black/80 transition-colors"
+                >
+                  <X size={14} />
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="w-full h-32 border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center gap-2 text-muted-foreground hover:border-primary/40 hover:bg-muted/30 transition-colors active:bg-muted/50"
+              >
+                <span className="text-3xl select-none">📷</span>
+                <div className="text-center">
+                  <p className="text-sm font-medium">사진 추가</p>
+                  <p className="text-xs opacity-60 mt-0.5">카메라 촬영 또는 갤러리에서 선택</p>
+                </div>
+              </button>
+            )}
+          </div>
+
+          {/* 버튼 */}
+          <div className="flex gap-2 pt-1 pb-safe pb-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onClose}
+              disabled={loading}
+              className="flex-1 h-11"
+            >
+              취소
+            </Button>
+            <Button
+              type="submit"
+              disabled={!name.trim() || loading}
+              className="flex-1 h-11 bg-primary hover:bg-primary/90 text-primary-foreground"
+            >
+              {loading ? "추가 중..." : "추가"}
+            </Button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 }
 
 // ─── 로그인 화면 ──────────────────────────────────────────────
@@ -95,6 +300,7 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
 // ─── 관리자 패널 ──────────────────────────────────────────────
 function AdminPanel({ onLogout }: { onLogout: () => void }) {
   const [search, setSearch] = useState("");
+  const [showAdd, setShowAdd] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -105,7 +311,6 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
     staleTime: 0,
   });
 
-  // 검색 필터링
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     if (!q) return cakes;
@@ -114,7 +319,6 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
 
   const availableCount = cakes.filter((c) => c.available).length;
 
-  // 토글
   const toggleMutation = useMutation({
     mutationFn: ({ id, available }: { id: number; available: boolean }) =>
       apiCall<RiceCake>(`/rice-cakes/${id}`, {
@@ -136,7 +340,6 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
     onSettled: () => queryClient.invalidateQueries({ queryKey: ["riceCakes"] }),
   });
 
-  // 모두 끄기
   const resetMutation = useMutation({
     mutationFn: () => apiCall("/rice-cakes/reset", { method: "POST" }),
     onSuccess: () => {
@@ -147,10 +350,7 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
   });
 
   const handleReset = () => {
-    if (availableCount === 0) {
-      toast({ title: "이미 모두 꺼져 있어요" });
-      return;
-    }
+    if (availableCount === 0) { toast({ title: "이미 모두 꺼져 있어요" }); return; }
     if (window.confirm(`판매 중인 떡 ${availableCount}개를 모두 끌까요?`)) {
       resetMutation.mutate();
     }
@@ -169,6 +369,15 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
               {availableCount > 0 ? `${availableCount}개 판매 중` : "판매 중인 떡 없음"}
             </p>
           </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowAdd(true)}
+            className="text-xs h-8 px-3 flex-shrink-0 border-primary/40 text-primary hover:bg-primary/10 hover:text-primary gap-1"
+          >
+            <Plus size={13} />
+            새 떡
+          </Button>
           <Button
             variant="outline"
             size="sm"
@@ -226,28 +435,21 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
               className="bg-card rounded-xl border border-border flex items-center gap-3 px-3 py-2.5 transition-opacity"
               style={{ opacity: cake.available ? 1 : 0.55 }}
             >
-              {/* 썸네일 */}
               {cake.imageUrl ? (
                 <img
                   src={cake.imageUrl}
                   alt={cake.name}
                   className="w-11 h-11 rounded-lg object-cover flex-shrink-0 bg-muted"
-                  onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).style.display = "none";
-                  }}
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
                 />
               ) : (
                 <div className="w-11 h-11 rounded-lg bg-accent flex-shrink-0 flex items-center justify-center text-xl select-none">
                   🍡
                 </div>
               )}
-
-              {/* 이름 */}
               <p className="flex-1 text-sm font-medium text-foreground leading-tight min-w-0 truncate">
                 {cake.name}
               </p>
-
-              {/* 토글 */}
               <Switch
                 checked={cake.available}
                 onCheckedChange={(checked) =>
@@ -260,6 +462,14 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
           ))
         )}
       </main>
+
+      {/* 새 떡 추가 모달 */}
+      {showAdd && (
+        <AddCakeModal
+          onClose={() => setShowAdd(false)}
+          onAdded={() => queryClient.invalidateQueries({ queryKey: ["riceCakes"] })}
+        />
+      )}
     </div>
   );
 }
