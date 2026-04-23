@@ -116,9 +116,12 @@ function AddCakeModal({ onClose, onAdded }: { onClose: () => void; onAdded: () =
           },
           body: JSON.stringify({ contentType: "image/jpeg", data: base64 }),
         });
-        const uploadJson = await uploadRes.json();
-        if (!uploadRes.ok) throw new Error(uploadJson.message || "이미지 업로드 실패");
-        imageUrl = uploadJson.url;
+        let uploadJson: { url?: string; message?: string } = {};
+        try { uploadJson = await uploadRes.json(); } catch { /* non-JSON body */ }
+        if (!uploadRes.ok) {
+          throw new Error(uploadJson.message || (uploadRes.status === 413 ? "이미지 파일이 너무 커요 (10MB 이하로 줄여주세요)" : "이미지 업로드 실패"));
+        }
+        imageUrl = uploadJson.url ?? "";
       }
 
       await apiCall<RiceCake>("/rice-cakes", {

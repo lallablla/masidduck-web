@@ -52,8 +52,8 @@ function requireAdmin(req: Request, res: Response, next: NextFunction) {
 
 // Express 앱
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: false, limit: "10mb" }));
 
 // ── 관리자 로그인 ──────────────────────────────────────────
 app.post("/api/admin/login", (req: Request, res: Response) => {
