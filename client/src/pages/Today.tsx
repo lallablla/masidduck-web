@@ -36,8 +36,9 @@ export default function Today() {
   } = useQuery<RiceCake[]>({
     queryKey: ["today"],
     queryFn: fetchTodaysCakes,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 3,
     refetchOnWindowFocus: true,
+    refetchInterval: 1000 * 60 * 3,
   });
 
   return (
@@ -79,18 +80,9 @@ export default function Today() {
               오늘은 아직 준비 중이에요
             </h2>
             <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-              오늘의 떡 정보가 아직 등록되지 않았어요.<br />
-              매장으로 직접 문의해주세요.
+              오늘 준비된 떡 정보가 아직 없어요.<br />
+              잠시 후 다시 확인해주세요.
             </p>
-            <div className="mt-8 inline-block bg-accent rounded-2xl px-6 py-4">
-              <p className="text-xs text-muted-foreground mb-1">문의</p>
-              <a
-                href="tel:010-0000-0000"
-                className="font-serif text-lg text-primary hover:underline"
-              >
-                전화 문의하기
-              </a>
-            </div>
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">

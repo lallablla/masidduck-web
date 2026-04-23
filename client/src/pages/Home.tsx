@@ -15,6 +15,25 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <Navbar />
       <Hero />
+
+      {/* 오늘의 떡 배너 */}
+      <section className="bg-[#F2EBD9] border-b border-[#E2D5BE]">
+        <div className="container mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <span className="text-4xl select-none" aria-hidden="true">🍡</span>
+            <div>
+              <p className="font-serif text-lg font-bold text-[#422D22] leading-tight">오늘의 떡</p>
+              <p className="text-sm text-[#8B7355] mt-0.5">오늘 매장에서 만날 수 있는 떡을 확인해보세요</p>
+            </div>
+          </div>
+          <Link href="/today">
+            <a className="flex items-center gap-2 bg-[#7D4E2F] text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-[#6A3D20] active:scale-95 transition-all whitespace-nowrap shadow-sm">
+              오늘의 떡 보기 <ArrowRight className="w-4 h-4" />
+            </a>
+          </Link>
+        </div>
+      </section>
+
       <B2BSection />
       <Competitiveness />
       

@@ -50,7 +50,7 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-10">
-          <Link 
+          <Link
             href="/"
             className={cn(
               "text-sm tracking-wide hover:text-[#8B7355] transition-colors relative group",
@@ -61,6 +61,22 @@ export default function Navbar() {
             <span className={cn(
               "absolute -bottom-1 left-0 w-0 h-0.5 bg-[#8B7355] transition-all duration-300 group-hover:w-full",
               location === "/" ? "w-full" : ""
+            )} />
+          </Link>
+
+          {/* 오늘의 떡 */}
+          <Link
+            href="/today"
+            className={cn(
+              "text-sm tracking-wide hover:text-[#8B7355] transition-colors relative group flex items-center gap-1.5",
+              location === "/today" ? "text-[#8B7355] font-medium" : "text-[#5C5145]"
+            )}
+          >
+            오늘의 떡
+            <span className="w-1.5 h-1.5 rounded-full bg-[#8B7355]/70 animate-pulse" />
+            <span className={cn(
+              "absolute -bottom-1 left-0 w-0 h-0.5 bg-[#8B7355] transition-all duration-300 group-hover:w-full",
+              location === "/today" ? "w-full" : ""
             )} />
           </Link>
 
@@ -156,12 +172,20 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-white border-t border-border shadow-lg p-6 flex flex-col gap-4 animate-in slide-in-from-top-2">
-          <Link 
+          <Link
             href="/"
             className="text-lg font-medium text-foreground py-2 border-b border-border/50"
             onClick={() => setIsOpen(false)}
           >
             홈
+          </Link>
+          <Link
+            href="/today"
+            className="text-lg font-medium text-[#8B7355] py-2 border-b border-border/50 flex items-center gap-2"
+            onClick={() => setIsOpen(false)}
+          >
+            오늘의 떡
+            <span className="w-2 h-2 rounded-full bg-[#8B7355]/70 animate-pulse" />
           </Link>
           <div className="py-2 border-b border-border/50">
             <p className="text-lg font-medium text-foreground mb-2">브랜드</p>
