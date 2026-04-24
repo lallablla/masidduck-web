@@ -21,9 +21,14 @@ export default function ProductGrid() {
     setCurrentPage(1);
   }, [activeSubcategory]);
 
+  // Tag-based categories (dol, ibaji, event) filter by tags field
+  const tagCategories = ["dol", "ibaji", "event"];
+
   let filteredProducts = activeCategory === "all"
     ? products
-    : products.filter(p => p.category === activeCategory);
+    : tagCategories.includes(activeCategory)
+      ? products.filter(p => p.tags?.includes(activeCategory))
+      : products.filter(p => p.category === activeCategory);
 
   // Apply subcategory filter for gift products
   if (activeCategory === "gift" && activeSubcategory !== "all") {

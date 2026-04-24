@@ -2,7 +2,7 @@ export interface Product {
   id: number;
   name: string;
   description: string;
-  category: "gift" | "ceremony" | "cake" | "regular" | "special";
+  category: "gift" | "ceremony" | "cake" | "regular" | "special" | "giftset" | "dol" | "ibaji" | "event";
   subcategory?: "gift-2" | "gift-3" | "gift-4" | "gift-6";
   price: string;
   image: string;
@@ -28,7 +28,8 @@ export const products: Product[] = [
     category: "gift",
     subcategory: "gift-2",
     price: "가격 문의",
-    image: "/images/products/gift-2-baekseolgi-gyeongdan.jpg"
+    image: "/images/products/gift-2-baekseolgi-gyeongdan.jpg",
+    tags: ["dol"]
   },
   {
     id: 202,
@@ -47,7 +48,8 @@ export const products: Product[] = [
     subcategory: "gift-2",
     price: "가격 문의",
     image: "/images/products/gift-2-baekseolgi-kkultteok.jpg",
-    images: ["/images/products/gift-2-baekseolgi-kkultteok-alt.jpg"]
+    images: ["/images/products/gift-2-baekseolgi-kkultteok-alt.jpg"],
+    tags: ["dol"]
   },
   {
     id: 204,
@@ -56,7 +58,8 @@ export const products: Product[] = [
     category: "gift",
     subcategory: "gift-2",
     price: "가격 문의",
-    image: "/images/products/gift-2-baekseolgi-songpyeon-dol.jpg"
+    image: "/images/products/gift-2-baekseolgi-songpyeon-dol.jpg",
+    tags: ["dol"]
   },
   {
     id: 205,
@@ -165,7 +168,8 @@ export const products: Product[] = [
     category: "gift",
     subcategory: "gift-3",
     price: "가격 문의",
-    image: "/images/products/gift-3-gyeongdan-baekseolgi-kkultteok.jpg"
+    image: "/images/products/gift-3-gyeongdan-baekseolgi-kkultteok.jpg",
+    tags: ["dol"]
   },
   {
     id: 302,
@@ -210,7 +214,8 @@ export const products: Product[] = [
     category: "gift",
     subcategory: "gift-3",
     price: "가격 문의",
-    image: "/images/products/gift-3-baekseolgi-kkultteok-ssukmochi.jpg"
+    image: "/images/products/gift-3-baekseolgi-kkultteok-ssukmochi.jpg",
+    tags: ["dol"]
   },
   {
     id: 307,
@@ -228,7 +233,8 @@ export const products: Product[] = [
     category: "gift",
     subcategory: "gift-3",
     price: "가격 문의",
-    image: "/images/products/gift-3-seolgi-songpyeon-yeongyang.jpg"
+    image: "/images/products/gift-3-seolgi-songpyeon-yeongyang.jpg",
+    tags: ["dol"]
   },
   {
     id: 309,
@@ -237,7 +243,8 @@ export const products: Product[] = [
     category: "gift",
     subcategory: "gift-3",
     price: "가격 문의",
-    image: "/images/products/gift-3-songpyeon-baekseolgi-yeongyang.jpg"
+    image: "/images/products/gift-3-songpyeon-baekseolgi-yeongyang.jpg",
+    tags: ["dol"]
   },
   {
     id: 310,
@@ -494,7 +501,8 @@ export const products: Product[] = [
     category: "gift",
     subcategory: "gift-4",
     price: "가격 문의",
-    image: "/images/products/gift-4-baek-hodu-songpyeon-ssuk.jpg"
+    image: "/images/products/gift-4-baek-hodu-songpyeon-ssuk.jpg",
+    tags: ["dol"]
   },
   {
     id: 410,
@@ -503,7 +511,8 @@ export const products: Product[] = [
     category: "gift",
     subcategory: "gift-4",
     price: "가격 문의",
-    image: "/images/products/gift-4-baek-heukimja-ssuk-hodu.jpg"
+    image: "/images/products/gift-4-baek-heukimja-ssuk-hodu.jpg",
+    tags: ["dol"]
   },
   {
     id: 411,
@@ -675,7 +684,8 @@ export const products: Product[] = [
     category: "regular",
     price: "1말 ₩100,000",
     image: "/images/products/baekseolgi-plain.jpg",
-    images: ["/images/products/baekseolgi-alt.jpg"]
+    images: ["/images/products/baekseolgi-alt.jpg"],
+    tags: ["dol"]
   },
   {
     id: 43,
@@ -710,7 +720,8 @@ export const products: Product[] = [
     description: "수수와 팥으로 만든 전통 떡. 고소하고 담백한 맛이 특징으로 백일, 돌잔치에 필수입니다.",
     category: "regular",
     price: "1말 ₩100,000",
-    image: "/images/products/susu-pattteok.jpg"
+    image: "/images/products/susu-pattteok.jpg",
+    tags: ["dol"]
   },
   {
     id: 51,
@@ -928,7 +939,8 @@ export const products: Product[] = [
     description: "돌잔치에 어울리는 화려한 설기 떡케이크. 장미꽃 장식이 고급스럽습니다.",
     category: "cake",
     price: "가격 문의",
-    image: "/images/products/cake-seolgi-dolsang.jpg"
+    image: "/images/products/cake-seolgi-dolsang.jpg",
+    tags: ["dol"]
   },
   {
     id: 101,
@@ -1157,7 +1169,8 @@ export const products: Product[] = [
     description: "개업 및 행사떡에 원하시는 메시지를 담아드립니다~",
     category: "regular",
     price: "가격 문의",
-    image: "/images/products/regular-injeolmi-custom-msg.jpg"
+    image: "/images/products/regular-injeolmi-custom-msg.jpg",
+    tags: ["event"]
   },
   {
     id: 129,
@@ -1165,7 +1178,8 @@ export const products: Product[] = [
     description: "정성을 담은 조문 답례용 백설기입니다. 감사 메시지를 담아드립니다.",
     category: "regular",
     price: "가격 문의",
-    image: "/images/products/regular-baekseolgi-condolence.jpg"
+    image: "/images/products/regular-baekseolgi-condolence.jpg",
+    tags: ["event"]
   },
   {
     id: 130,
@@ -1189,6 +1203,9 @@ export const CATEGORIES = [
   { id: 'all', label: '전체' },
   { id: 'gift', label: '답례떡' },
   { id: 'giftset', label: '선물세트' },
+  { id: 'dol', label: '돌백일떡' },
+  { id: 'ibaji', label: '이바지떡' },
+  { id: 'event', label: '행사떡' },
   { id: 'cake', label: '떡케이크' },
   { id: 'regular', label: '일반떡' },
 ];
