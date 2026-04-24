@@ -1196,6 +1196,240 @@ export const products: Product[] = [
     category: "regular",
     price: "가격 문의",
     image: "/images/products/regular-injeolmi-songpyeon-set.jpg"
+  },
+
+  // 이바지떡
+  {
+    id: 132,
+    name: "이바지떡 (소)",
+    description: "정성 가득 담은 이바지떡 소 세트. 혼례 이바지 상에 올리는 전통 떡입니다.",
+    category: "special",
+    price: "가격 문의",
+    image: "/images/products/ibaji-tteok-1.jpg",
+    images: ["/images/products/ibaji-tteok-2.jpg"],
+    tags: ["ibaji"]
+  },
+  {
+    id: 133,
+    name: "이바지떡 (중)",
+    description: "혼례의 정성을 담은 이바지떡 중 세트. 다양한 전통 떡으로 구성됩니다.",
+    category: "special",
+    price: "가격 문의",
+    image: "/images/products/ibaji-tteok-3.jpg",
+    images: ["/images/products/ibaji-tteok-4.jpg", "/images/products/ibaji-tteok-5.jpg"],
+    tags: ["ibaji"]
+  },
+  {
+    id: 134,
+    name: "이바지떡 (대)",
+    description: "혼례 이바지 상을 풍성하게 채우는 이바지떡 대 세트입니다.",
+    category: "special",
+    price: "가격 문의",
+    image: "/images/products/ibaji-tteok-6.jpg",
+    images: ["/images/products/ibaji-tteok-7.jpg"],
+    tags: ["ibaji"]
+  },
+
+  // 일반떡 신규
+  {
+    id: 135,
+    name: "꽃 하트 떡국떡",
+    description: "꽃과 하트 모양으로 예쁘게 빚은 색깔 떡국떡입니다. 명절 선물이나 특별한 날에 제격입니다.",
+    category: "regular",
+    price: "가격 문의",
+    image: "/images/products/tteokkuk-heart.png",
+    images: ["/images/products/tteokkuk-heart-2.jpg", "/images/products/tteokkuk-heart-3.jpg"]
+  },
+  {
+    id: 136,
+    name: "쑥인절미",
+    description: "국내산 쑥을 듬뿍 넣어 만든 초록빛 인절미. 향긋한 쑥향과 쫄깃한 식감이 일품입니다.",
+    category: "regular",
+    price: "가격 문의",
+    image: "/images/products/ssuk-injeolmi-new.jpg"
+  },
+  {
+    id: 137,
+    name: "초코 오레오 설기",
+    description: "부드러운 초코 설기에 오레오를 더한 새로운 감각의 퓨전 설기떡입니다.",
+    category: "regular",
+    price: "가격 문의",
+    image: "/images/products/choco-oreo-seolgi.jpg"
+  },
+
+  // 떡케이크 신규
+  {
+    id: 138,
+    name: "찰떡 케이크 (세트)",
+    description: "쫄깃한 찰떡을 층층이 쌓아 만든 찰떡 케이크. 생일·기념일에 어울리는 선물입니다.",
+    category: "cake",
+    price: "가격 문의",
+    image: "/images/products/chaltteok-cake-1.jpg",
+    images: ["/images/products/chaltteok-cake-2.jpg", "/images/products/chaltteok-cake-3.jpg", "/images/products/chaltteok-cake-4.jpg"]
+  },
+  {
+    id: 139,
+    name: "떡케이크 - 블루베리 설기",
+    description: "새콤달콤 블루베리로 만든 설기 떡케이크. 화사한 보랏빛 색감이 눈길을 사로잡습니다.",
+    category: "cake",
+    price: "가격 문의",
+    image: "/images/products/blueberry-seolgi-cake.jpg"
+  },
+  {
+    id: 140,
+    name: "떡케이크 - 호박 설기",
+    description: "단호박으로 만든 달콤하고 촉촉한 호박 설기 떡케이크입니다.",
+    category: "cake",
+    price: "가격 문의",
+    image: "/images/products/hobak-seolgi-cake.jpg"
+  },
+  {
+    id: 141,
+    name: "떡케이크 - 백설기 (신형)",
+    description: "깔끔하고 단아한 백설기 떡케이크. 꽃 장식으로 고급스럽게 꾸몄습니다.",
+    category: "cake",
+    price: "가격 문의",
+    image: "/images/products/baekseolgi-cake-new.jpg"
+  },
+  {
+    id: 142,
+    name: "떡케이크 - 백일 설기",
+    description: "백일 잔치를 축하하는 특별한 설기 떡케이크입니다. 아기의 건강과 행복을 기원합니다.",
+    category: "cake",
+    price: "가격 문의",
+    image: "/images/products/baekil-seolgi-cake.jpg",
+    tags: ["dol"]
+  },
+  {
+    id: 143,
+    name: "떡케이크 - 첫돌 설기",
+    description: "첫돌 잔치를 화려하게 빛낼 설기 떡케이크. 소중한 첫 번째 생일을 축하합니다.",
+    category: "cake",
+    price: "가격 문의",
+    image: "/images/products/firstdol-seolgi-cake.jpg",
+    tags: ["dol"]
+  },
+
+  // 선물세트 신규
+  {
+    id: 144,
+    name: "찰떡 1호 세트",
+    description: "촉촉하고 쫄깃한 찰떡을 정성스럽게 담은 1호 선물세트. 감사 선물로 제격입니다.",
+    category: "giftset",
+    price: "가격 문의",
+    image: "/images/products/chaltteok-set-1ho.jpg",
+    images: ["/images/products/chaltteok-set-1ho-b.jpg"]
+  },
+  {
+    id: 145,
+    name: "찰떡 3호 세트",
+    description: "다양한 찰떡으로 알차게 구성된 3호 선물세트. 명절·기념일 선물로 추천합니다.",
+    category: "giftset",
+    price: "가격 문의",
+    image: "/images/products/chaltteok-set-3ho.jpg"
+  },
+  {
+    id: 146,
+    name: "찰떡 4호 세트",
+    description: "풍성한 구성의 찰떡 4호 선물세트. 소중한 분께 감사한 마음을 전하세요.",
+    category: "giftset",
+    price: "가격 문의",
+    image: "/images/products/chaltteok-set-4ho.jpg"
+  },
+  {
+    id: 147,
+    name: "종합 찰떡 세트",
+    description: "영양찰떡, 호박찰떡, 팥찰떡 등 다양한 찰떡을 한번에 즐기는 종합 선물세트입니다.",
+    category: "giftset",
+    price: "가격 문의",
+    image: "/images/products/jonghap-chaltteok-set.jpg"
+  },
+
+  // 답례떡 신규
+  {
+    id: 148,
+    name: "손가방 답례떡",
+    description: "예쁜 손가방에 담긴 특별한 답례떡. 돌잔치·결혼식·행사 답례품으로 인기입니다.",
+    category: "gift",
+    price: "가격 문의",
+    image: "/images/products/sonbag-dapryetteok.jpg"
+  },
+
+  // 행사떡 신규
+  {
+    id: 149,
+    name: "기업체 행사떡",
+    description: "기업 행사·워크숍·기념일에 맞춤 제작하는 행사떡입니다. 로고·메시지 인쇄 가능합니다.",
+    category: "regular",
+    price: "가격 문의",
+    image: "/images/products/corporate-event-tteok.jpg",
+    tags: ["event"]
+  },
+  {
+    id: 150,
+    name: "시무식떡",
+    description: "새해 시무식·종무식을 빛낼 특별한 행사떡입니다. 단체 주문 가능합니다.",
+    category: "regular",
+    price: "가격 문의",
+    image: "/images/products/simusik-tteok.jpg",
+    images: ["/images/products/simusik-tteok-2.jpg"],
+    tags: ["event"]
+  },
+  {
+    id: 151,
+    name: "종교단체 행사떡",
+    description: "교회·성당·사찰 등 종교 행사에 맞춤 제작하는 행사떡입니다.",
+    category: "regular",
+    price: "가격 문의",
+    image: "/images/products/religious-event-tteok.jpg",
+    tags: ["event"]
+  },
+
+  // 돌백일떡 신규
+  {
+    id: 152,
+    name: "첫돌 설기",
+    description: "아이의 첫 번째 생일을 축하하는 첫돌 설기입니다. 꽃 장식으로 특별하게 꾸몄습니다.",
+    category: "regular",
+    price: "가격 문의",
+    image: "/images/products/firstdol-seolgi.jpg",
+    tags: ["dol"]
+  },
+  {
+    id: 153,
+    name: "세돌 설기",
+    description: "아이의 세 번째 생일을 축하하는 특별한 설기떡입니다.",
+    category: "regular",
+    price: "가격 문의",
+    image: "/images/products/sedol-seolgi.jpg",
+    tags: ["dol"]
+  },
+  {
+    id: 154,
+    name: "수수팥단지",
+    description: "아이의 건강과 장수를 기원하는 전통 수수팥단지입니다. 돌잔치 상에 빠질 수 없는 필수 아이템입니다.",
+    category: "regular",
+    price: "가격 문의",
+    image: "/images/products/susu-patdanji-new.jpg",
+    tags: ["dol"]
+  },
+  {
+    id: 155,
+    name: "한자 백설기",
+    description: "복(福)·수(壽) 등 한자가 새겨진 돌잔치용 백설기. 전통적인 분위기를 연출합니다.",
+    category: "regular",
+    price: "가격 문의",
+    image: "/images/products/hanja-baekseolgi.jpg",
+    tags: ["dol"]
+  },
+  {
+    id: 156,
+    name: "오색경단 (돌)",
+    description: "알록달록 오색경단으로 돌잔치 상을 화사하게 꾸미세요. 아이의 행복한 미래를 기원합니다.",
+    category: "regular",
+    price: "가격 문의",
+    image: "/images/products/oseak-gyeongdan-new.jpg",
+    tags: ["dol"]
   }
 ];
 
