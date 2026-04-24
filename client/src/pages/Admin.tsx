@@ -92,6 +92,7 @@ async function imageFileToDataUrl(file: File): Promise<string> {
 // ─── 새 오늘의 떡 추가 모달 ────────────────────────────────────
 function AddCakeModal({ onClose, onAdded }: { onClose: () => void; onAdded: () => void }) {
   const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState("");
   const [loading, setLoading] = useState(false);
@@ -126,7 +127,7 @@ function AddCakeModal({ onClose, onAdded }: { onClose: () => void; onAdded: () =
       if (file) imageUrl = await imageFileToDataUrl(file);
       await apiCall<RiceCake>("/rice-cakes", {
         method: "POST",
-        body: JSON.stringify({ name: name.trim(), imageUrl, description: "", available: false, sortOrder: 0 }),
+        body: JSON.stringify({ name: name.trim(), imageUrl, description: description.trim(), available: false, sortOrder: 0 }),
       });
       toast({ title: "추가됐어요!", description: `${name.trim()} 등록 완료` });
       onAdded();
@@ -158,6 +159,16 @@ function AddCakeModal({ onClose, onAdded }: { onClose: () => void; onAdded: () =
               떡 이름 <span className="text-red-400">*</span>
             </label>
             <Input placeholder="예) 무지개떡, 인절미..." value={name} onChange={(e) => setName(e.target.value)} className="h-11" autoFocus maxLength={50} />
+          </div>
+          <div>
+            <label className="text-xs font-medium text-muted-foreground mb-1.5 block">제품 설명 <span className="text-muted-foreground/60">(선택)</span></label>
+            <textarea
+              placeholder="예) 쫄깃한 찹쌀 위에 고소한 콩가루를 듬뿍..."
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full h-20 px-3 py-2.5 text-sm border border-input rounded-lg resize-none bg-background focus:outline-none focus:ring-1 focus:ring-ring"
+              maxLength={300}
+            />
           </div>
           <div>
             <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
