@@ -55,6 +55,8 @@ export const catalogProducts = pgTable("catalog_products", {
 export const insertCatalogProductSchema = createInsertSchema(catalogProducts).omit({
   id: true,
   createdAt: true,
+}).extend({
+  imageUrl: z.string().optional().default(""),
 });
 
 export type CatalogProduct = typeof catalogProducts.$inferSelect;

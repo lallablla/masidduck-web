@@ -56,13 +56,13 @@ async function apiCall<T>(path: string, options: RequestInit = {}): Promise<T> {
   return data as T;
 }
 
-async function compressImage(file: File): Promise<Blob> {
+async function imageFileToDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const img = new Image();
     const objUrl = URL.createObjectURL(file);
     img.onload = () => {
       URL.revokeObjectURL(objUrl);
-      const MAX = 1200;
+      const MAX = 900;
       let { width, height } = img;
       if (width > MAX || height > MAX) {
         if (width > height) { height = Math.round((height / width) * MAX); width = MAX; }
@@ -73,43 +73,20 @@ async function compressImage(file: File): Promise<Blob> {
       canvas.height = height;
       canvas.getContext("2d")!.drawImage(img, 0, 0, width, height);
       canvas.toBlob(
-        (b) => (b ? resolve(b) : reject(new Error("압축 실패"))),
+        (b) => {
+          if (!b) { reject(new Error("이미지 변환 실패")); return; }
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(b);
+        },
         "image/jpeg",
-        0.85
+        0.80
       );
     };
     img.onerror = () => { URL.revokeObjectURL(objUrl); reject(new Error("이미지 로딩 실패")); };
     img.src = objUrl;
   });
-}
-
-async function blobToBase64(blob: Blob): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = reject;
-    reader.readAsDataURL(blob);
-  });
-}
-
-async function uploadImage(file: File): Promise<string> {
-  const compressed = await compressImage(file);
-  const base64 = await blobToBase64(compressed);
-  const token = getToken();
-  const uploadRes = await fetch("/api/upload", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-    body: JSON.stringify({ contentType: "image/jpeg", data: base64 }),
-  });
-  let uploadJson: { url?: string; message?: string } = {};
-  try { uploadJson = await uploadRes.json(); } catch { /* non-JSON body */ }
-  if (!uploadRes.ok) {
-    throw new Error(uploadJson.message || (uploadRes.status === 413 ? "이미지 파일이 너무 커요 (10MB 이하로 줄여주세요)" : "이미지 업로드 실패"));
-  }
-  return uploadJson.url ?? "";
 }
 
 // ─── 새 오늘의 떡 추가 모달 ────────────────────────────────────
@@ -146,7 +123,7 @@ function AddCakeModal({ onClose, onAdded }: { onClose: () => void; onAdded: () =
     setLoading(true);
     try {
       let imageUrl = "";
-      if (file) imageUrl = await uploadImage(file);
+      if (file) imageUrl = await imageFileToDataUrl(file);
       await apiCall<RiceCake>("/rice-cakes", {
         method: "POST",
         body: JSON.stringify({ name: name.trim(), imageUrl, description: "", available: false, sortOrder: 0 }),
@@ -375,7 +352,7 @@ function ProductRegisterTab() {
     setLoading(true);
     try {
       let imageUrl = "";
-      if (file) imageUrl = await uploadImage(file);
+      if (file) imageUrl = await imageFileToDataUrl(file);
       await apiCall<CatalogProduct>("/catalog-products", {
         method: "POST",
         body: JSON.stringify({ name: name.trim(), description: description.trim(), category, subcategory: "", price: price.trim() || "가격 문의", imageUrl }),
