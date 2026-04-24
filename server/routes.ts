@@ -100,8 +100,13 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
 
   // 공개 API - 카탈로그 제품 목록
   app.get("/api/catalog-products", async (_req: Request, res: Response) => {
-    const products = await storage.getAllCatalogProducts();
-    return res.json(products);
+    try {
+      const products = await storage.getAllCatalogProducts();
+      return res.json(products);
+    } catch (err) {
+      console.error("catalog-products error:", err);
+      return res.json([]);
+    }
   });
 
   // 관리자 - 카탈로그 제품 추가

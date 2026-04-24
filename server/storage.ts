@@ -65,7 +65,8 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllCatalogProducts(): Promise<CatalogProduct[]> {
-    return db.select().from(catalogProducts).orderBy(catalogProducts.createdAt);
+    const result = await db.select().from(catalogProducts).orderBy(catalogProducts.createdAt);
+    return result ?? [];
   }
 
   async createCatalogProduct(product: InsertCatalogProduct): Promise<CatalogProduct> {
