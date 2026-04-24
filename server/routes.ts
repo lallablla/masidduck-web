@@ -2,7 +2,7 @@ import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import jwt from "jsonwebtoken";
 import { storage } from "./storage";
-import { insertRiceCakeSchema, updateRiceCakeSchema } from "@shared/schema";
+import { insertRiceCakeSchema, updateRiceCakeSchema, insertCatalogProductSchema } from "@shared/schema";
 
 const SESSION_SECRET = process.env.SESSION_SECRET || "dev-fallback-secret";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "";
@@ -94,6 +94,35 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     const deleted = await storage.deleteRiceCake(id);
     if (!deleted) {
       return res.status(404).json({ message: "떡을 찾을 수 없습니다" });
+    }
+    return res.json({ ok: true });
+  });
+
+  // 공개 API - 카탈로그 제품 목록
+  app.get("/api/catalog-products", async (_req: Request, res: Response) => {
+    const products = await storage.getAllCatalogProducts();
+    return res.json(products);
+  });
+
+  // 관리자 - 카탈로그 제품 추가
+  app.post("/api/catalog-products", requireAdmin, async (req: Request, res: Response) => {
+    const result = insertCatalogProductSchema.safeParse(req.body);
+    if (!result.success) {
+      return res.status(400).json({ message: "잘못된 입력입니다", errors: result.error.issues });
+    }
+    const product = await storage.createCatalogProduct(result.data);
+    return res.status(201).json(product);
+  });
+
+  // 관리자 - 카탈로그 제품 삭제
+  app.delete("/api/catalog-products/:id", requireAdmin, async (req: Request, res: Response) => {
+    const id = parseInt(String(req.params.id), 10);
+    if (isNaN(id)) {
+      return res.status(400).json({ message: "잘못된 ID입니다" });
+    }
+    const deleted = await storage.deleteCatalogProduct(id);
+    if (!deleted) {
+      return res.status(404).json({ message: "제품을 찾을 수 없습니다" });
     }
     return res.json({ ok: true });
   });

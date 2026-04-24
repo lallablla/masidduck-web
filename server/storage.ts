@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { db } from "./db";
-import { users, riceCakes } from "@shared/schema";
-import type { User, InsertUser, RiceCake, InsertRiceCake, UpdateRiceCake } from "@shared/schema";
+import { users, riceCakes, catalogProducts } from "@shared/schema";
+import type { User, InsertUser, RiceCake, InsertRiceCake, UpdateRiceCake, CatalogProduct, InsertCatalogProduct } from "@shared/schema";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -12,6 +12,9 @@ export interface IStorage {
   createRiceCake(cake: InsertRiceCake): Promise<RiceCake>;
   updateRiceCake(id: number, updates: UpdateRiceCake): Promise<RiceCake | undefined>;
   deleteRiceCake(id: number): Promise<boolean>;
+  getAllCatalogProducts(): Promise<CatalogProduct[]>;
+  createCatalogProduct(product: InsertCatalogProduct): Promise<CatalogProduct>;
+  deleteCatalogProduct(id: number): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -58,6 +61,20 @@ export class DatabaseStorage implements IStorage {
 
   async deleteRiceCake(id: number): Promise<boolean> {
     const result = await db.delete(riceCakes).where(eq(riceCakes.id, id)).returning();
+    return result.length > 0;
+  }
+
+  async getAllCatalogProducts(): Promise<CatalogProduct[]> {
+    return db.select().from(catalogProducts).orderBy(catalogProducts.createdAt);
+  }
+
+  async createCatalogProduct(product: InsertCatalogProduct): Promise<CatalogProduct> {
+    const [newProduct] = await db.insert(catalogProducts).values(product).returning();
+    return newProduct;
+  }
+
+  async deleteCatalogProduct(id: number): Promise<boolean> {
+    const result = await db.delete(catalogProducts).where(eq(catalogProducts.id, id)).returning();
     return result.length > 0;
   }
 }

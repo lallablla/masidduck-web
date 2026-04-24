@@ -1,8 +1,20 @@
 import { useState, useEffect } from "react";
-import { products, CATEGORIES, GIFT_SUBCATEGORIES } from "@/data/products";
+import { useQuery } from "@tanstack/react-query";
+import { products as staticProducts, CATEGORIES, GIFT_SUBCATEGORIES, type Product } from "@/data/products";
 import ProductCard from "./ProductCard";
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+
+type CatalogProduct = {
+  id: number;
+  name: string;
+  description: string;
+  category: string;
+  subcategory: string;
+  price: string;
+  imageUrl: string;
+  createdAt: string;
+};
 
 export default function ProductGrid() {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -10,32 +22,49 @@ export default function ProductGrid() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
-  // Reset page and subcategory when category changes
+  const { data: catalogItems = [] } = useQuery<CatalogProduct[]>({
+    queryKey: ["catalogProducts"],
+    queryFn: async () => {
+      const res = await fetch("/api/catalog-products");
+      if (!res.ok) return [];
+      return res.json();
+    },
+    staleTime: 30000,
+  });
+
+  const catalogAsProducts: Product[] = catalogItems.map((item) => ({
+    id: item.id + 100000,
+    name: item.name,
+    description: item.description,
+    category: item.category as Product["category"],
+    subcategory: item.subcategory as Product["subcategory"],
+    price: item.price,
+    image: item.imageUrl,
+  }));
+
+  const allProducts = [...staticProducts, ...catalogAsProducts];
+
   useEffect(() => {
     setCurrentPage(1);
     setActiveSubcategory("all");
   }, [activeCategory]);
 
-  // Reset page when subcategory changes
   useEffect(() => {
     setCurrentPage(1);
   }, [activeSubcategory]);
 
-  // Tag-based categories (dol, ibaji, event) filter by tags field
   const tagCategories = ["dol", "ibaji", "event"];
 
   let filteredProducts = activeCategory === "all"
-    ? products
+    ? allProducts
     : tagCategories.includes(activeCategory)
-      ? products.filter(p => p.tags?.includes(activeCategory))
-      : products.filter(p => p.category === activeCategory);
+      ? allProducts.filter(p => p.tags?.includes(activeCategory) || p.category === activeCategory)
+      : allProducts.filter(p => p.category === activeCategory);
 
-  // Apply subcategory filter for gift products
   if (activeCategory === "gift" && activeSubcategory !== "all") {
     filteredProducts = filteredProducts.filter(p => p.subcategory === activeSubcategory);
   }
 
-  // Pagination Logic
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentProducts = filteredProducts.slice(startIndex, startIndex + itemsPerPage);
@@ -43,8 +72,7 @@ export default function ProductGrid() {
   const goToPage = (page: number) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
-      // Optional: scroll to top of grid
-      window.scrollTo({ top: 0, behavior: 'smooth' }); 
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 

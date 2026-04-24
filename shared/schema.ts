@@ -40,3 +40,22 @@ export const updateRiceCakeSchema = insertRiceCakeSchema.partial();
 export type RiceCake = typeof riceCakes.$inferSelect;
 export type InsertRiceCake = z.infer<typeof insertRiceCakeSchema>;
 export type UpdateRiceCake = z.infer<typeof updateRiceCakeSchema>;
+
+export const catalogProducts = pgTable("catalog_products", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  name: text("name").notNull(),
+  description: text("description").notNull().default(""),
+  category: text("category").notNull(),
+  subcategory: text("subcategory").notNull().default(""),
+  price: text("price").notNull().default("가격 문의"),
+  imageUrl: text("image_url").notNull().default(""),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const insertCatalogProductSchema = createInsertSchema(catalogProducts).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type CatalogProduct = typeof catalogProducts.$inferSelect;
+export type InsertCatalogProduct = z.infer<typeof insertCatalogProductSchema>;

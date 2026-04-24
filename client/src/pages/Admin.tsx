@@ -4,7 +4,8 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { LogOut, Search, PowerOff, Plus, X, Trash2 } from "lucide-react";
+import { LogOut, Search, PowerOff, Plus, X, Trash2, Package } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type RiceCake = {
   id: number;
@@ -14,6 +15,27 @@ type RiceCake = {
   available: boolean;
   sortOrder: number;
 };
+
+type CatalogProduct = {
+  id: number;
+  name: string;
+  description: string;
+  category: string;
+  subcategory: string;
+  price: string;
+  imageUrl: string;
+  createdAt: string;
+};
+
+const PRODUCT_CATEGORIES = [
+  { id: "gift", label: "답례떡" },
+  { id: "giftset", label: "선물세트" },
+  { id: "dol", label: "돌백일떡" },
+  { id: "ibaji", label: "이바지떡" },
+  { id: "event", label: "행사떡" },
+  { id: "cake", label: "떡케이크" },
+  { id: "regular", label: "일반떡" },
+];
 
 function getToken() { return localStorage.getItem("admin_token"); }
 function saveToken(t: string) { localStorage.setItem("admin_token", t); }
@@ -70,7 +92,27 @@ async function blobToBase64(blob: Blob): Promise<string> {
   });
 }
 
-// ─── 새 떡 추가 모달 ──────────────────────────────────────────
+async function uploadImage(file: File): Promise<string> {
+  const compressed = await compressImage(file);
+  const base64 = await blobToBase64(compressed);
+  const token = getToken();
+  const uploadRes = await fetch("/api/upload", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: JSON.stringify({ contentType: "image/jpeg", data: base64 }),
+  });
+  let uploadJson: { url?: string; message?: string } = {};
+  try { uploadJson = await uploadRes.json(); } catch { /* non-JSON body */ }
+  if (!uploadRes.ok) {
+    throw new Error(uploadJson.message || (uploadRes.status === 413 ? "이미지 파일이 너무 커요 (10MB 이하로 줄여주세요)" : "이미지 업로드 실패"));
+  }
+  return uploadJson.url ?? "";
+}
+
+// ─── 새 오늘의 떡 추가 모달 ────────────────────────────────────
 function AddCakeModal({ onClose, onAdded }: { onClose: () => void; onAdded: () => void }) {
   const [name, setName] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -104,31 +146,11 @@ function AddCakeModal({ onClose, onAdded }: { onClose: () => void; onAdded: () =
     setLoading(true);
     try {
       let imageUrl = "";
-      if (file) {
-        const compressed = await compressImage(file);
-        const base64 = await blobToBase64(compressed);
-        const token = getToken();
-        const uploadRes = await fetch("/api/upload", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({ contentType: "image/jpeg", data: base64 }),
-        });
-        let uploadJson: { url?: string; message?: string } = {};
-        try { uploadJson = await uploadRes.json(); } catch { /* non-JSON body */ }
-        if (!uploadRes.ok) {
-          throw new Error(uploadJson.message || (uploadRes.status === 413 ? "이미지 파일이 너무 커요 (10MB 이하로 줄여주세요)" : "이미지 업로드 실패"));
-        }
-        imageUrl = uploadJson.url ?? "";
-      }
-
+      if (file) imageUrl = await uploadImage(file);
       await apiCall<RiceCake>("/rice-cakes", {
         method: "POST",
         body: JSON.stringify({ name: name.trim(), imageUrl, description: "", available: false, sortOrder: 0 }),
       });
-
       toast({ title: "추가됐어요!", description: `${name.trim()} 등록 완료` });
       onAdded();
       onClose();
@@ -147,67 +169,33 @@ function AddCakeModal({ onClose, onAdded }: { onClose: () => void; onAdded: () =
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
       <div className="relative bg-white rounded-t-2xl sm:rounded-2xl w-full max-w-sm shadow-xl">
-        {/* 헤더 */}
         <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-border">
           <h2 className="font-serif text-base font-semibold text-foreground">새 떡 추가</h2>
-          <button
-            type="button"
-            onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-muted transition-colors"
-          >
+          <button type="button" onClick={onClose} className="p-1.5 rounded-lg hover:bg-muted transition-colors">
             <X size={18} className="text-muted-foreground" />
           </button>
         </div>
-
         <form onSubmit={handleSubmit} className="px-5 py-4 space-y-4">
-          {/* 이름 */}
           <div>
             <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
               떡 이름 <span className="text-red-400">*</span>
             </label>
-            <Input
-              placeholder="예) 무지개떡, 인절미..."
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="h-11"
-              autoFocus
-              maxLength={50}
-            />
+            <Input placeholder="예) 무지개떡, 인절미..." value={name} onChange={(e) => setName(e.target.value)} className="h-11" autoFocus maxLength={50} />
           </div>
-
-          {/* 사진 */}
           <div>
             <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
               사진 <span className="text-muted-foreground/60">(선택)</span>
             </label>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleFile}
-              className="hidden"
-            />
+            <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFile} className="hidden" />
             {preview ? (
               <div className="relative">
-                <img
-                  src={preview}
-                  alt="미리보기"
-                  className="w-full h-48 object-cover rounded-xl"
-                />
-                <button
-                  type="button"
-                  onClick={removeFile}
-                  className="absolute top-2 right-2 bg-black/60 text-white rounded-full p-1.5 hover:bg-black/80 transition-colors"
-                >
+                <img src={preview} alt="미리보기" className="w-full h-48 object-cover rounded-xl" />
+                <button type="button" onClick={removeFile} className="absolute top-2 right-2 bg-black/60 text-white rounded-full p-1.5 hover:bg-black/80 transition-colors">
                   <X size={14} />
                 </button>
               </div>
             ) : (
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className="w-full h-32 border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center gap-2 text-muted-foreground hover:border-primary/40 hover:bg-muted/30 transition-colors active:bg-muted/50"
-              >
+              <button type="button" onClick={() => fileInputRef.current?.click()} className="w-full h-32 border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center gap-2 text-muted-foreground hover:border-primary/40 hover:bg-muted/30 transition-colors">
                 <span className="text-3xl select-none">📷</span>
                 <div className="text-center">
                   <p className="text-sm font-medium">사진 추가</p>
@@ -216,23 +204,9 @@ function AddCakeModal({ onClose, onAdded }: { onClose: () => void; onAdded: () =
               </button>
             )}
           </div>
-
-          {/* 버튼 */}
           <div className="flex gap-2 pt-1 pb-safe pb-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onClose}
-              disabled={loading}
-              className="flex-1 h-11"
-            >
-              취소
-            </Button>
-            <Button
-              type="submit"
-              disabled={!name.trim() || loading}
-              className="flex-1 h-11 bg-primary hover:bg-primary/90 text-primary-foreground"
-            >
+            <Button type="button" variant="outline" onClick={onClose} disabled={loading} className="flex-1 h-11">취소</Button>
+            <Button type="submit" disabled={!name.trim() || loading} className="flex-1 h-11 bg-primary hover:bg-primary/90 text-primary-foreground">
               {loading ? "추가 중..." : "추가"}
             </Button>
           </div>
@@ -242,66 +216,8 @@ function AddCakeModal({ onClose, onAdded }: { onClose: () => void; onAdded: () =
   );
 }
 
-// ─── 로그인 화면 ──────────────────────────────────────────────
-function LoginScreen({ onLogin }: { onLogin: () => void }) {
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const { toast } = useToast();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    try {
-      const { token } = await apiCall<{ token: string }>("/admin/login", {
-        method: "POST",
-        body: JSON.stringify({ password }),
-      });
-      saveToken(token);
-      onLogin();
-      toast({ title: "환영합니다 사장님!" });
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "로그인 실패");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-6">
-      <div className="w-full max-w-sm">
-        <div className="text-center mb-10">
-          <div className="text-5xl mb-4 select-none">🍡</div>
-          <h1 className="font-serif text-2xl text-foreground mb-2">마시떡 관리자</h1>
-          <p className="text-muted-foreground text-sm">오늘의 떡을 설정해주세요</p>
-        </div>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
-            type="password"
-            placeholder="비밀번호 입력"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="h-12 text-base"
-            autoComplete="current-password"
-            autoFocus
-          />
-          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
-          <Button
-            type="submit"
-            className="w-full h-12 text-base bg-primary hover:bg-primary/90 text-primary-foreground"
-            disabled={loading || !password}
-          >
-            {loading ? "로그인 중..." : "로그인"}
-          </Button>
-        </form>
-      </div>
-    </div>
-  );
-}
-
-// ─── 관리자 패널 ──────────────────────────────────────────────
-function AdminPanel({ onLogout }: { onLogout: () => void }) {
+// ─── 오늘의 떡 관리 탭 ──────────────────────────────────────────
+function TodayTab() {
   const [search, setSearch] = useState("");
   const [showAdd, setShowAdd] = useState(false);
   const { toast } = useToast();
@@ -324,16 +240,11 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
 
   const toggleMutation = useMutation({
     mutationFn: ({ id, available }: { id: number; available: boolean }) =>
-      apiCall<RiceCake>(`/rice-cakes/${id}`, {
-        method: "PATCH",
-        body: JSON.stringify({ available }),
-      }),
+      apiCall<RiceCake>(`/rice-cakes/${id}`, { method: "PATCH", body: JSON.stringify({ available }) }),
     onMutate: async ({ id, available }) => {
       await queryClient.cancelQueries({ queryKey: ["riceCakes"] });
       const prev = queryClient.getQueryData<RiceCake[]>(["riceCakes"]);
-      queryClient.setQueryData<RiceCake[]>(["riceCakes"], (old = []) =>
-        old.map((c) => (c.id === id ? { ...c, available } : c))
-      );
+      queryClient.setQueryData<RiceCake[]>(["riceCakes"], (old = []) => old.map((c) => (c.id === id ? { ...c, available } : c)));
       return { prev };
     },
     onError: (_err, _vars, ctx) => {
@@ -353,23 +264,330 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id: number) =>
-      apiCall<{ ok: boolean }>(`/rice-cakes/${id}`, { method: "DELETE" }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["riceCakes"] });
-      toast({ title: "삭제됐어요" });
-    },
-    onError: (err) => {
-      alert(err instanceof Error ? err.message : "삭제 실패");
-    },
+    mutationFn: (id: number) => apiCall<{ ok: boolean }>(`/rice-cakes/${id}`, { method: "DELETE" }),
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["riceCakes"] }); toast({ title: "삭제됐어요" }); },
+    onError: (err) => { alert(err instanceof Error ? err.message : "삭제 실패"); },
   });
 
   const handleReset = () => {
     if (availableCount === 0) { toast({ title: "이미 모두 꺼져 있어요" }); return; }
-    if (window.confirm(`판매 중인 떡 ${availableCount}개를 모두 끌까요?`)) {
-      resetMutation.mutate();
+    if (window.confirm(`판매 중인 떡 ${availableCount}개를 모두 끌까요?`)) resetMutation.mutate();
+  };
+
+  return (
+    <div>
+      <div className="flex items-center gap-2 mb-3">
+        <p className="text-xs text-muted-foreground flex-1">
+          {availableCount > 0 ? `${availableCount}개 판매 중` : "판매 중인 떡 없음"}
+        </p>
+        <Button variant="outline" size="sm" onClick={() => setShowAdd(true)} className="text-xs h-8 px-3 border-primary/40 text-primary hover:bg-primary/10 hover:text-primary gap-1">
+          <Plus size={13} />새 떡
+        </Button>
+        <Button variant="outline" size="sm" onClick={handleReset} disabled={resetMutation.isPending} className="text-xs h-8 px-3 border-muted-foreground/30 text-muted-foreground hover:text-foreground">
+          <PowerOff size={13} className="mr-1" />모두 끄기
+        </Button>
+      </div>
+
+      <div className="relative mb-3">
+        <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+        <Input placeholder="떡 이름으로 검색..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-8 h-9 text-sm bg-muted/50 border-0 focus-visible:ring-1" />
+      </div>
+      {search && <p className="text-xs text-muted-foreground mb-2 pl-1">{filtered.length > 0 ? `${filtered.length}개 검색됨` : "검색 결과 없음"}</p>}
+
+      <div className="space-y-1.5">
+        {isLoading ? (
+          [...Array(8)].map((_, i) => <div key={i} className="h-16 bg-card rounded-xl border border-border animate-pulse" />)
+        ) : filtered.length === 0 ? (
+          <div className="text-center py-16 text-muted-foreground text-sm">{search ? "검색 결과가 없어요" : "등록된 떡이 없어요"}</div>
+        ) : (
+          filtered.map((cake) => (
+            <div key={cake.id} className="bg-card rounded-xl border border-border flex items-center gap-3 px-3 py-2.5 transition-opacity" style={{ opacity: cake.available ? 1 : 0.55 }}>
+              {cake.imageUrl ? (
+                <img src={cake.imageUrl} alt={cake.name} className="w-11 h-11 rounded-lg object-cover flex-shrink-0 bg-muted" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
+              ) : (
+                <div className="w-11 h-11 rounded-lg bg-accent flex-shrink-0 flex items-center justify-center text-xl select-none">🍡</div>
+              )}
+              <p className="flex-1 text-sm font-medium text-foreground leading-tight min-w-0 truncate">{cake.name}</p>
+              <Switch checked={cake.available} onCheckedChange={(checked) => toggleMutation.mutate({ id: cake.id, available: checked })} aria-label={`${cake.name} ${cake.available ? "판매 중" : "판매 안함"}`} className="flex-shrink-0" />
+              <button onClick={() => { if (window.confirm(`정말 ${cake.name}을(를) 삭제하시겠어요?`)) deleteMutation.mutate(cake.id); }} className="p-1.5 rounded-lg text-muted-foreground hover:text-red-500 hover:bg-red-50 transition-colors flex-shrink-0" aria-label={`${cake.name} 삭제`}>
+                <Trash2 size={15} />
+              </button>
+            </div>
+          ))
+        )}
+      </div>
+
+      {showAdd && (
+        <AddCakeModal onClose={() => setShowAdd(false)} onAdded={() => queryClient.invalidateQueries({ queryKey: ["riceCakes"] })} />
+      )}
+    </div>
+  );
+}
+
+// ─── 제품 등록 탭 ────────────────────────────────────────────────
+function ProductRegisterTab() {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("gift");
+  const [price, setPrice] = useState("가격 문의");
+  const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState("");
+  const [loading, setLoading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  const { data: catalogProducts = [], isLoading } = useQuery<CatalogProduct[]>({
+    queryKey: ["catalogProducts"],
+    queryFn: () => apiCall<CatalogProduct[]>("/catalog-products"),
+    retry: false,
+    staleTime: 0,
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (id: number) => apiCall<{ ok: boolean }>(`/catalog-products/${id}`, { method: "DELETE" }),
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["catalogProducts"] }); toast({ title: "삭제됐어요" }); },
+    onError: (err) => { alert(err instanceof Error ? err.message : "삭제 실패"); },
+  });
+
+  useEffect(() => {
+    return () => { if (preview) URL.revokeObjectURL(preview); };
+  }, [preview]);
+
+  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    setFile(f);
+    if (preview) URL.revokeObjectURL(preview);
+    setPreview(URL.createObjectURL(f));
+  };
+
+  const removeFile = () => {
+    setFile(null);
+    if (preview) URL.revokeObjectURL(preview);
+    setPreview("");
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim()) return;
+    setLoading(true);
+    try {
+      let imageUrl = "";
+      if (file) imageUrl = await uploadImage(file);
+      await apiCall<CatalogProduct>("/catalog-products", {
+        method: "POST",
+        body: JSON.stringify({ name: name.trim(), description: description.trim(), category, subcategory: "", price: price.trim() || "가격 문의", imageUrl }),
+      });
+      toast({ title: "등록됐어요!", description: `${name.trim()}이(가) 제품 목록에 추가되었습니다` });
+      queryClient.invalidateQueries({ queryKey: ["catalogProducts"] });
+      setName(""); setDescription(""); setCategory("gift"); setPrice("가격 문의"); removeFile();
+    } catch (err) {
+      toast({ title: "등록 실패", description: err instanceof Error ? err.message : "오류가 발생했습니다", variant: "destructive" });
+    } finally {
+      setLoading(false);
     }
   };
+
+  const getCategoryLabel = (id: string) => PRODUCT_CATEGORIES.find(c => c.id === id)?.label ?? id;
+
+  return (
+    <div className="space-y-6">
+      {/* 등록 폼 */}
+      <form onSubmit={handleSubmit} className="bg-card rounded-2xl border border-border p-5 space-y-4">
+        <h2 className="font-serif text-sm font-semibold text-foreground">새 제품 등록</h2>
+
+        {/* 카테고리 */}
+        <div>
+          <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+            카테고리 <span className="text-red-400">*</span>
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {PRODUCT_CATEGORIES.map((cat) => (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => setCategory(cat.id)}
+                className={cn(
+                  "px-3 py-1.5 rounded-full text-xs font-medium transition-all",
+                  category === cat.id
+                    ? "bg-primary text-white shadow-sm"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80"
+                )}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* 제품명 */}
+        <div>
+          <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+            제품명 <span className="text-red-400">*</span>
+          </label>
+          <Input
+            data-testid="input-product-name"
+            placeholder="예) 3구 답례떡 [영양찰떡+백설기+경단]"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="h-11"
+            maxLength={100}
+          />
+        </div>
+
+        {/* 제품 설명 */}
+        <div>
+          <label className="text-xs font-medium text-muted-foreground mb-1.5 block">제품 설명</label>
+          <textarea
+            data-testid="textarea-product-description"
+            placeholder="제품에 대한 간단한 설명을 입력하세요..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full h-20 px-3 py-2.5 text-sm border border-input rounded-lg resize-none bg-background focus:outline-none focus:ring-1 focus:ring-ring"
+            maxLength={300}
+          />
+        </div>
+
+        {/* 가격 */}
+        <div>
+          <label className="text-xs font-medium text-muted-foreground mb-1.5 block">가격</label>
+          <Input
+            data-testid="input-product-price"
+            placeholder="가격 문의"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            className="h-11"
+            maxLength={50}
+          />
+        </div>
+
+        {/* 사진 */}
+        <div>
+          <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+            사진 <span className="text-muted-foreground/60">(선택)</span>
+          </label>
+          <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFile} className="hidden" />
+          {preview ? (
+            <div className="relative">
+              <img src={preview} alt="미리보기" className="w-full h-48 object-cover rounded-xl" />
+              <button type="button" onClick={removeFile} className="absolute top-2 right-2 bg-black/60 text-white rounded-full p-1.5 hover:bg-black/80 transition-colors">
+                <X size={14} />
+              </button>
+            </div>
+          ) : (
+            <button type="button" onClick={() => fileInputRef.current?.click()} className="w-full h-32 border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center gap-2 text-muted-foreground hover:border-primary/40 hover:bg-muted/30 transition-colors">
+              <span className="text-3xl select-none">📷</span>
+              <div className="text-center">
+                <p className="text-sm font-medium">사진 추가</p>
+                <p className="text-xs opacity-60 mt-0.5">카메라 촬영 또는 갤러리에서 선택</p>
+              </div>
+            </button>
+          )}
+        </div>
+
+        <Button
+          data-testid="button-register-product"
+          type="submit"
+          disabled={!name.trim() || loading}
+          className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground"
+        >
+          {loading ? "등록 중..." : "제품 목록에 등록하기"}
+        </Button>
+      </form>
+
+      {/* 등록된 제품 목록 */}
+      <div>
+        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+          등록된 제품 ({catalogProducts.length}개)
+        </h3>
+        {isLoading ? (
+          <div className="space-y-2">
+            {[...Array(3)].map((_, i) => <div key={i} className="h-20 bg-card rounded-xl border border-border animate-pulse" />)}
+          </div>
+        ) : catalogProducts.length === 0 ? (
+          <div className="text-center py-10 text-muted-foreground text-sm bg-card rounded-xl border border-border">
+            아직 등록된 제품이 없어요.<br />위 폼으로 새 제품을 등록해보세요.
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {catalogProducts.map((product) => (
+              <div key={product.id} className="bg-card rounded-xl border border-border flex items-center gap-3 px-3 py-3">
+                {product.imageUrl ? (
+                  <img src={product.imageUrl} alt={product.name} className="w-14 h-14 rounded-lg object-cover flex-shrink-0 bg-muted" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
+                ) : (
+                  <div className="w-14 h-14 rounded-lg bg-accent flex-shrink-0 flex items-center justify-center text-2xl select-none">🍡</div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-foreground truncate">{product.name}</p>
+                  <span className="inline-block text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium mt-0.5">
+                    {getCategoryLabel(product.category)}
+                  </span>
+                  {product.description && <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{product.description}</p>}
+                </div>
+                <button
+                  onClick={() => { if (window.confirm(`정말 "${product.name}"을(를) 삭제하시겠어요?`)) deleteMutation.mutate(product.id); }}
+                  className="p-1.5 rounded-lg text-muted-foreground hover:text-red-500 hover:bg-red-50 transition-colors flex-shrink-0"
+                  aria-label={`${product.name} 삭제`}
+                >
+                  <Trash2 size={15} />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── 로그인 화면 ──────────────────────────────────────────────
+function LoginScreen({ onLogin }: { onLogin: () => void }) {
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    try {
+      const { token } = await apiCall<{ token: string }>("/admin/login", { method: "POST", body: JSON.stringify({ password }) });
+      saveToken(token);
+      onLogin();
+      toast({ title: "환영합니다 사장님!" });
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "로그인 실패");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-background flex items-center justify-center p-6">
+      <div className="w-full max-w-sm">
+        <div className="text-center mb-10">
+          <div className="text-5xl mb-4 select-none">🍡</div>
+          <h1 className="font-serif text-2xl text-foreground mb-2">마시떡 관리자</h1>
+          <p className="text-muted-foreground text-sm">오늘의 떡을 설정해주세요</p>
+        </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Input type="password" placeholder="비밀번호 입력" value={password} onChange={(e) => setPassword(e.target.value)} className="h-12 text-base" autoComplete="current-password" autoFocus />
+          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+          <Button type="submit" className="w-full h-12 text-base bg-primary hover:bg-primary/90 text-primary-foreground" disabled={loading || !password}>
+            {loading ? "로그인 중..." : "로그인"}
+          </Button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+// ─── 관리자 패널 ──────────────────────────────────────────────
+function AdminPanel({ onLogout }: { onLogout: () => void }) {
+  const [activeTab, setActiveTab] = useState<"today" | "products">("today");
 
   const handleLogout = () => { clearToken(); onLogout(); };
 
@@ -378,123 +596,40 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
       {/* 헤더 */}
       <header className="bg-card border-b border-border sticky top-0 z-20 shadow-sm">
         <div className="max-w-lg mx-auto px-4 py-3 flex items-center gap-2">
-          <div className="flex-1 min-w-0">
-            <h1 className="font-serif text-lg text-foreground leading-tight">오늘의 떡 관리</h1>
-            <p className="text-xs text-muted-foreground">
-              {availableCount > 0 ? `${availableCount}개 판매 중` : "판매 중인 떡 없음"}
-            </p>
-          </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setShowAdd(true)}
-            className="text-xs h-8 px-3 flex-shrink-0 border-primary/40 text-primary hover:bg-primary/10 hover:text-primary gap-1"
-          >
-            <Plus size={13} />
-            새 떡
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleReset}
-            disabled={resetMutation.isPending}
-            className="text-xs h-8 px-3 flex-shrink-0 border-muted-foreground/30 text-muted-foreground hover:text-foreground"
-          >
-            <PowerOff size={13} className="mr-1" />
-            모두 끄기
-          </Button>
-          <button
-            onClick={handleLogout}
-            className="text-muted-foreground hover:text-foreground p-2 rounded-lg hover:bg-muted transition-colors flex-shrink-0"
-            aria-label="로그아웃"
-          >
+          <h1 className="font-serif text-lg text-foreground leading-tight flex-1">마시떡 관리자</h1>
+          <button onClick={handleLogout} className="text-muted-foreground hover:text-foreground p-2 rounded-lg hover:bg-muted transition-colors flex-shrink-0" aria-label="로그아웃">
             <LogOut size={18} />
           </button>
         </div>
 
-        {/* 검색창 */}
-        <div className="max-w-lg mx-auto px-4 pb-3">
-          <div className="relative">
-            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
-            <Input
-              placeholder="떡 이름으로 검색..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-8 h-9 text-sm bg-muted/50 border-0 focus-visible:ring-1"
-            />
-          </div>
-          {search && (
-            <p className="text-xs text-muted-foreground mt-1.5 pl-1">
-              {filtered.length > 0 ? `${filtered.length}개 검색됨` : "검색 결과 없음"}
-            </p>
-          )}
+        {/* 탭 */}
+        <div className="max-w-lg mx-auto px-4 pb-0 flex">
+          <button
+            onClick={() => setActiveTab("today")}
+            className={cn(
+              "flex-1 py-2.5 text-sm font-medium border-b-2 transition-colors",
+              activeTab === "today" ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"
+            )}
+          >
+            오늘의 떡
+          </button>
+          <button
+            onClick={() => setActiveTab("products")}
+            className={cn(
+              "flex-1 py-2.5 text-sm font-medium border-b-2 transition-colors flex items-center justify-center gap-1.5",
+              activeTab === "products" ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"
+            )}
+          >
+            <Package size={14} />
+            제품 등록
+          </button>
         </div>
       </header>
 
-      {/* 목록 */}
-      <main className="max-w-lg mx-auto px-4 py-3 pb-12 space-y-1.5">
-        {isLoading ? (
-          <div className="space-y-1.5 pt-2">
-            {[...Array(8)].map((_, i) => (
-              <div key={i} className="h-16 bg-card rounded-xl border border-border animate-pulse" />
-            ))}
-          </div>
-        ) : filtered.length === 0 ? (
-          <div className="text-center py-16 text-muted-foreground text-sm">
-            {search ? "검색 결과가 없어요" : "등록된 떡이 없어요"}
-          </div>
-        ) : (
-          filtered.map((cake) => (
-            <div
-              key={cake.id}
-              className="bg-card rounded-xl border border-border flex items-center gap-3 px-3 py-2.5 transition-opacity"
-              style={{ opacity: cake.available ? 1 : 0.55 }}
-            >
-              {cake.imageUrl ? (
-                <img
-                  src={cake.imageUrl}
-                  alt={cake.name}
-                  className="w-11 h-11 rounded-lg object-cover flex-shrink-0 bg-muted"
-                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-                />
-              ) : (
-                <div className="w-11 h-11 rounded-lg bg-accent flex-shrink-0 flex items-center justify-center text-xl select-none">
-                  🍡
-                </div>
-              )}
-              <p className="flex-1 text-sm font-medium text-foreground leading-tight min-w-0 truncate">
-                {cake.name}
-              </p>
-              <Switch
-                checked={cake.available}
-                onCheckedChange={(checked) =>
-                  toggleMutation.mutate({ id: cake.id, available: checked })
-                }
-                aria-label={`${cake.name} ${cake.available ? "판매 중" : "판매 안함"}`}
-                className="flex-shrink-0"
-              />
-              <button
-                onClick={() => {
-                  if (window.confirm(`정말 ${cake.name}을(를) 삭제하시겠어요?`))
-                    deleteMutation.mutate(cake.id);
-                }}
-                className="p-1.5 rounded-lg text-muted-foreground hover:text-red-500 hover:bg-red-50 transition-colors flex-shrink-0"
-                aria-label={`${cake.name} 삭제`}
-              >
-                <Trash2 size={15} />
-              </button>
-            </div>
-          ))
-        )}
+      {/* 탭 내용 */}
+      <main className="max-w-lg mx-auto px-4 py-4 pb-12">
+        {activeTab === "today" ? <TodayTab /> : <ProductRegisterTab />}
       </main>
-
-      {/* 새 떡 추가 모달 */}
-      {showAdd && (
-        <AddCakeModal
-          onClose={() => setShowAdd(false)}
-          onAdded={() => queryClient.invalidateQueries({ queryKey: ["riceCakes"] })}
-        />
-      )}
     </div>
   );
 }
