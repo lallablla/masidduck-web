@@ -577,14 +577,6 @@ export const products: Product[] = [
     price: "가격 문의",
     image: "/images/products/gift-set-mixed-2.jpg"
   },
-  {
-    id: 904,
-    name: "프리미엄 선물세트 (특대)",
-    description: "영양찰떡, 약식, 백설기, 호박찰떡, 콩설기 5종류의 떡 40개로 구성된 특대형 선물 세트입니다.",
-    category: "giftset",
-    price: "가격 문의",
-    image: "/images/products/gift-set-mixed-3.jpg"
-  },
 
   // 떡케이크 (Cake)
 
@@ -625,20 +617,11 @@ export const products: Product[] = [
   {
     id: 22,
     name: "고구마 찰떡",
-    description: "달콤한 고구마와 쫄깃한 찰떡의 만남. 보라색 고구마와 노란 호박고지가 어우러진 건강한 간식입니다.",
+    description: "달콤한 고구마와 쫄깃한 찰떡의 만남. 보라색 고구마와 노란 호박고지 / 카스테라 고물과 고구마 무스가 어우러진 건강한 간식입니다.",
     category: "regular",
     price: "1말 ₩110,000",
     image: "/images/products/goguma-chaltteok.jpg",
     images: ["/images/products/goguma-chaltteok-alt1.jpg", "/images/products/goguma-chaltteok-alt2.jpg"]
-  },
-  {
-    id: 23,
-    name: "기피 시루떡",
-    description: "전통 방식 그대로 쪄낸 순백의 기피 시루떡. 고소하고 담백한 맛으로 어르신들께 인기가 좋습니다.",
-    category: "regular",
-    price: "1말 ₩100,000",
-    image: "/images/products/gipi-sirutteok.jpg",
-    images: ["/images/products/gipi-sirutteok-alt.jpg"]
   },
   {
     id: 24,
@@ -686,15 +669,6 @@ export const products: Product[] = [
     images: ["/images/products/baram-tteok-plate-alt.jpg", "/images/products/baram-tteok-tray.jpg"]
   },
   {
-    id: 30,
-    name: "바람떡 답례세트",
-    description: "앙증맞은 바람떡을 답례 선물로! 소중한 분들께 감사의 마음을 전하기 좋은 소포장 세트입니다.",
-    category: "gift",
-    price: "가격 문의",
-    image: "/images/products/baram-tteok-gift-1.jpg",
-    images: ["/images/products/baram-tteok-gift-2.jpg"]
-  },
-  {
     id: 32,
     name: "백설기",
     description: "순백의 아름다움을 담은 전통 백설기. 촉촉하고 부드러운 식감으로 백일, 돌잔치의 필수 떡입니다.",
@@ -728,7 +702,7 @@ export const products: Product[] = [
     category: "regular",
     price: "1말 ₩120,000",
     image: "/images/products/watermelon-seolgi.jpg",
-    images: ["/images/products/watermelon-seolgi-alt.jpg", "/images/products/watermelon-seolgi-plate.jpg", "/images/products/watermelon-seolgi-green.jpg", "/images/products/watermelon-seolgi-green-alt.jpg"]
+    images: ["/images/products/watermelon-seolgi-alt.jpg", "/images/products/watermelon-seolgi-plate.jpg", "/images/products/watermelon-seolgi-green.jpg"]
   },
   {
     id: 50,
@@ -1172,7 +1146,7 @@ export const products: Product[] = [
   {
     id: 127,
     name: "오색송편 & 모찌세트",
-    description: "알록달록한 오색송편과 코코넛 모찌를 함께 담은 컵 세트입니다.",
+    description: "두가지를 한번에! 반/반 떡 - 알록달록한 오색꿀떡과 인절미(경단)을 함께담은 컵 세트입니다.",
     category: "regular",
     price: "가격 문의",
     image: "/images/products/regular-songpyeon-mochi-cup.jpg"
@@ -1180,7 +1154,7 @@ export const products: Product[] = [
   {
     id: 128,
     name: "인절미 (맞춤 메시지)",
-    description: "고소한 콩고물 인절미에 원하는 메시지를 담아드립니다. 응원, 축하 등 다양한 용도로 활용 가능합니다.",
+    description: "개업 및 행사떡에 원하시는 메시지를 담아드립니다~",
     category: "regular",
     price: "가격 문의",
     image: "/images/products/regular-injeolmi-custom-msg.jpg"
@@ -1204,7 +1178,7 @@ export const products: Product[] = [
   {
     id: 131,
     name: "인절미 & 오색송편 세트",
-    description: "고소한 인절미와 알록달록한 오색송편을 함께 담은 세트입니다.",
+    description: "수수팥떡 & 오색꿀떡 생일상 차림세트의 기본구성입니다.",
     category: "regular",
     price: "가격 문의",
     image: "/images/products/regular-injeolmi-songpyeon-set.jpg"
