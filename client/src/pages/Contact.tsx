@@ -40,18 +40,18 @@ export default function Contact() {
                    연락처 정보
                  </h2>
                  <div className="grid sm:grid-cols-2 gap-6">
-                    <div className="p-6 bg-white border border-border rounded-xl shadow-sm hover:border-primary transition-colors">
+                    <a href="tel:031-334-0015" className="block p-6 bg-white border border-border rounded-xl shadow-sm hover:border-primary transition-colors">
                        <Phone className="w-8 h-8 text-primary mb-4" />
                        <h3 className="font-bold mb-2">전화 문의</h3>
                        <p className="text-lg font-bold text-foreground">031-334-0015</p>
                        <p className="text-sm text-muted-foreground mt-1">월~토 05:00~19:00</p>
-                    </div>
-                    <div className="p-6 bg-white border border-border rounded-xl shadow-sm hover:border-primary transition-colors">
+                    </a>
+                    <a href="mailto:leesh7697@naver.com" className="block p-6 bg-white border border-border rounded-xl shadow-sm hover:border-primary transition-colors">
                        <Mail className="w-8 h-8 text-primary mb-4" />
                        <h3 className="font-bold mb-2">이메일</h3>
                        <p className="text-foreground">leesh7697@naver.com</p>
                        <p className="text-sm text-muted-foreground mt-1">24시간 접수 가능</p>
-                    </div>
+                    </a>
                     <div className="col-span-full p-6 bg-white border border-border rounded-xl shadow-sm hover:border-primary transition-colors">
                        <Clock className="w-8 h-8 text-primary mb-4" />
                        <h3 className="font-bold mb-2">영업시간</h3>

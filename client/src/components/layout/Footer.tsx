@@ -49,7 +49,7 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <Phone className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                 <div>
-                  <span className="text-sm text-foreground font-medium">031-334-0015</span>
+                  <a href="tel:031-334-0015" className="text-sm text-foreground font-medium hover:text-primary transition-colors">031-334-0015</a>
                   <span className="block text-xs text-muted-foreground mt-0.5">05:00 - 19:00 (일요일 휴무)</span>
                 </div>
               </li>
