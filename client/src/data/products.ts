@@ -1164,24 +1164,6 @@ export const products: Product[] = [
     image: "/images/products/regular-songpyeon-mochi-cup.jpg"
   },
   {
-    id: 128,
-    name: "인절미 (맞춤 메시지)",
-    description: "개업 및 행사떡에 원하시는 메시지를 담아드립니다~",
-    category: "regular",
-    price: "가격 문의",
-    image: "/images/products/regular-injeolmi-custom-msg.jpg",
-    tags: ["event"]
-  },
-  {
-    id: 129,
-    name: "백설기 (조문 답례)",
-    description: "정성을 담은 조문 답례용 백설기입니다. 감사 메시지를 담아드립니다.",
-    category: "regular",
-    price: "가격 문의",
-    image: "/images/products/regular-baekseolgi-condolence.jpg",
-    tags: ["event"]
-  },
-  {
     id: 130,
     name: "수박설기 (스틱형)",
     description: "귀여운 수박 모양의 설기떡입니다. 아이들에게 인기 만점! 스틱형으로 먹기 편합니다.",
