@@ -847,14 +847,6 @@ export const products: Product[] = [
     image: "/images/products/jeungpyeon.jpg"
   },
   {
-    id: 85,
-    name: "찰떡 케이크",
-    description: "호박찰떡, 약식, 쑥모찌로 화려하게 장식한 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/chaltteok-cake.jpg"
-  },
-  {
     id: 86,
     name: "찹쌀떡",
     description: "쫄깃한 찹쌀 피에 달콤한 팥소를 가득 넣은 전통 찹쌀떡입니다.",
@@ -926,234 +918,55 @@ export const products: Product[] = [
     images: ["/images/products/hobak-chaltteok-alt.jpg"]
   },
   {
-    id: 99,
-    name: "떡케이크 - 백설기 이모지",
-    description: "알록달록 이모지 장식이 귀여운 백설기 떡케이크. 아이들 생일에 인기입니다.",
+    id: 160,
+    name: "백설기 케이크",
+    description: "맞춤 메시지를 새긴 원형 백설기 케이크입니다. 생일·기념일에 어울립니다.",
     category: "cake",
     price: "가격 문의",
-    image: "/images/products/cake-baekseolgi-emoji.jpg"
+    image: "/images/products/cake-baekseolgi-new.jpg"
   },
   {
-    id: 100,
-    name: "떡케이크 - 설기 돌상",
-    description: "돌잔치에 어울리는 화려한 설기 떡케이크. 장미꽃 장식이 고급스럽습니다.",
+    id: 161,
+    name: "백일 설기 케이크",
+    description: "아기의 백일을 축하하는 설기 케이크입니다. '百日' 글씨로 특별함을 더했습니다.",
     category: "cake",
     price: "가격 문의",
-    image: "/images/products/cake-seolgi-dolsang.jpg",
+    image: "/images/products/cake-baekil-seolgi-new.jpg",
     tags: ["dol"]
   },
   {
-    id: 101,
-    name: "떡케이크 - 설기 메시지",
-    description: "사랑하는 마음을 담은 메시지 설기 떡케이크. 장미꽃 장식이 포인트입니다.",
+    id: 162,
+    name: "블루베리 설기 케이크",
+    description: "새콤달콤 블루베리가 들어간 설기 케이크입니다.",
     category: "cake",
     price: "가격 문의",
-    image: "/images/products/cake-seolgi-message.jpg"
+    image: "/images/products/cake-blueberry-seolgi-new.jpg"
   },
   {
-    id: 102,
-    name: "떡케이크 - 찰떡 생일",
-    description: "찰떡과 경단을 예쁘게 둘러 담은 생일 떡케이크입니다.",
+    id: 163,
+    name: "찰떡 케이크",
+    description: "쫄깃한 찰떡으로 만든 케이크입니다. 생일·기념일 선물로 제격입니다.",
     category: "cake",
     price: "가격 문의",
-    image: "/images/products/cake-chaltteok-birthday.jpg"
+    image: "/images/products/cake-chaltteok-new-1.jpg",
+    images: ["/images/products/cake-chaltteok-new-2.jpg", "/images/products/cake-chaltteok-new-3.jpg", "/images/products/cake-chaltteok-new-4.jpg"]
   },
   {
-    id: 103,
-    name: "떡케이크 - 영양찰떡 호박",
-    description: "영양찰떡과 호박경단을 올린 건강한 떡케이크입니다.",
+    id: 164,
+    name: "첫돌 설기 케이크",
+    description: "아이의 첫 번째 생일을 축하하는 설기 케이크입니다. '첫돌' 글씨가 정성스럽습니다.",
     category: "cake",
     price: "가격 문의",
-    image: "/images/products/cake-yeonyang-hobak.jpg",
-    images: ["/images/products/cake-yeonyang-hobak-alt.jpg"]
+    image: "/images/products/cake-firstdol-seolgi-new.jpg",
+    tags: ["dol"]
   },
   {
-    id: 104,
-    name: "떡케이크 - 백설기 키즈",
-    description: "아이들이 좋아하는 귀여운 캐릭터 장식 백설기 떡케이크입니다.",
+    id: 165,
+    name: "호박 설기 케이크",
+    description: "달콤한 단호박으로 만든 설기 케이크입니다. 맞춤 메시지를 담아드립니다.",
     category: "cake",
     price: "가격 문의",
-    image: "/images/products/cake-baekseolgi-kids.jpg",
-    images: ["/images/products/cake-baekseolgi-kids-pink.jpg", "/images/products/cake-baekseolgi-kids-alt.jpg"]
-  },
-  {
-    id: 105,
-    name: "떡케이크 - 설기 꽃",
-    description: "장미꽃 장식이 아름다운 원형 설기 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-seolgi-flower.jpg"
-  },
-  {
-    id: 106,
-    name: "떡케이크 - 호박찰떡 링",
-    description: "호박찰떡과 팥찰떡을 링 형태로 담은 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-hobak-chaltteok.jpg"
-  },
-  {
-    id: 107,
-    name: "떡케이크 - 인절미 생일",
-    description: "고소한 인절미 위에 축하 메시지를 담은 생일 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-injeolmi-birthday.jpg"
-  },
-  {
-    id: 108,
-    name: "떡케이크 - 송편 꽃",
-    description: "하얀 송편을 둥글게 담고 장미꽃으로 장식한 우아한 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-songpyeon-flower.jpg"
-  },
-  {
-    id: 109,
-    name: "떡케이크 - 인절미 장미",
-    description: "노란 인절미 위에 화려한 장미꽃 장식을 올린 생일 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-injeolmi-rose.jpg"
-  },
-  {
-    id: 110,
-    name: "떡케이크 - 쑥영양",
-    description: "쑥찰떡과 영양찰떡, 경단을 화려하게 담은 건강한 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-ssuk-yeonyang.jpg",
-    images: ["/images/products/cake-ssuk-yeonyang-alt.jpg"]
-  },
-  {
-    id: 111,
-    name: "떡케이크 - 설기 책",
-    description: "책 모양으로 만든 설기 떡케이크. 특별한 메시지를 담을 수 있습니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-seolgi-book.jpg"
-  },
-  {
-    id: 112,
-    name: "떡케이크 - 설기 2단",
-    description: "장미꽃으로 장식한 화려한 2단 설기 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-seolgi-2tier.jpg"
-  },
-  {
-    id: 113,
-    name: "떡케이크 - 설기 봄",
-    description: "봄꽃 장식이 아름다운 원형 설기 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-seolgi-spring.jpg"
-  },
-  {
-    id: 114,
-    name: "떡케이크 - 설기 학",
-    description: "학과 매화 장식이 동양적인 아름다움을 담은 설기 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-seolgi-crane.jpg"
-  },
-  {
-    id: 115,
-    name: "떡케이크 - 설기 잎",
-    description: "장미꽃과 나뭇잎 장식이 어우러진 설기 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-seolgi-rose-leaf.jpg"
-  },
-  {
-    id: 116,
-    name: "떡케이크 - 경단 무지개",
-    description: "알록달록 오색 경단을 가득 담은 화려한 생일 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-gyeongdan-rainbow.jpg"
-  },
-  {
-    id: 117,
-    name: "떡케이크 - 백설기 2단",
-    description: "귀여운 캐릭터 장식의 2단 백설기 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-baekseolgi-2tier.jpg"
-  },
-  {
-    id: 118,
-    name: "떡케이크 - 설기 심플",
-    description: "심플하고 깔끔한 원형 설기 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-seolgi-simple.jpg"
-  },
-  {
-    id: 119,
-    name: "떡케이크 - 영양찰떡",
-    description: "영양찰떡을 가득 담아 건강한 맛을 전하는 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-yeonyang-chaltteok.jpg"
-  },
-  {
-    id: 120,
-    name: "떡케이크 - 인절미 기념일",
-    description: "기념일에 어울리는 대형 인절미 떡케이크. 경단 장식이 포인트입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-injeolmi-anniversary.jpg"
-  },
-  {
-    id: 121,
-    name: "떡케이크 - 인절미 축하",
-    description: "축하 메시지를 담은 원형 인절미 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-injeolmi-celebration.jpg"
-  },
-  {
-    id: 122,
-    name: "떡케이크 - 호박찰떡 링",
-    description: "호박찰떡과 팥찰떡을 둥글게 담은 링 형태의 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-hobak-chaltteok-ring.jpg"
-  },
-  {
-    id: 123,
-    name: "떡케이크 - 인절미 꽃메시지",
-    description: "인절미 위에 꽃 장식과 축하 메시지를 담은 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-injeolmi-flower-msg.jpg",
-    images: ["/images/products/cake-injeolmi-flower-msg-alt.jpg"]
-  },
-  {
-    id: 124,
-    name: "떡케이크 - 팥찰떡 모찌",
-    description: "팥찰떡과 모찌를 함께 담은 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-pat-chaltteok-mochi.jpg"
-  },
-  {
-    id: 125,
-    name: "떡케이크 - 백설기 아트",
-    description: "귀여운 그림 장식이 돋보이는 백설기 생일 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-baekseolgi-birthday-art.jpg",
-    images: ["/images/products/cake-baekseolgi-birthday-art-alt.jpg"]
-  },
-  {
-    id: 126,
-    name: "떡케이크 - 분홍 설기",
-    description: "화사한 분홍색 설기 떡케이크. 축하 메시지를 담을 수 있습니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/cake-pink-seolgi.jpg"
+    image: "/images/products/cake-hobak-seolgi-new.jpg"
   },
   {
     id: 127,
@@ -1239,58 +1052,6 @@ export const products: Product[] = [
     image: "/images/products/choco-oreo-seolgi.jpg"
   },
 
-  // 떡케이크 신규
-  {
-    id: 138,
-    name: "찰떡 케이크 (세트)",
-    description: "쫄깃한 찰떡을 층층이 쌓아 만든 찰떡 케이크. 생일·기념일에 어울리는 선물입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/chaltteok-cake-1.jpg",
-    images: ["/images/products/chaltteok-cake-2.jpg", "/images/products/chaltteok-cake-3.jpg", "/images/products/chaltteok-cake-4.jpg"]
-  },
-  {
-    id: 139,
-    name: "떡케이크 - 블루베리 설기",
-    description: "새콤달콤 블루베리로 만든 설기 떡케이크. 화사한 보랏빛 색감이 눈길을 사로잡습니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/blueberry-seolgi-cake.jpg"
-  },
-  {
-    id: 140,
-    name: "떡케이크 - 호박 설기",
-    description: "단호박으로 만든 달콤하고 촉촉한 호박 설기 떡케이크입니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/hobak-seolgi-cake.jpg"
-  },
-  {
-    id: 141,
-    name: "떡케이크 - 백설기 (신형)",
-    description: "깔끔하고 단아한 백설기 떡케이크. 꽃 장식으로 고급스럽게 꾸몄습니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/baekseolgi-cake-new.jpg"
-  },
-  {
-    id: 142,
-    name: "떡케이크 - 백일 설기",
-    description: "백일 잔치를 축하하는 특별한 설기 떡케이크입니다. 아기의 건강과 행복을 기원합니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/baekil-seolgi-cake.jpg",
-    tags: ["dol"]
-  },
-  {
-    id: 143,
-    name: "떡케이크 - 첫돌 설기",
-    description: "첫돌 잔치를 화려하게 빛낼 설기 떡케이크. 소중한 첫 번째 생일을 축하합니다.",
-    category: "cake",
-    price: "가격 문의",
-    image: "/images/products/firstdol-seolgi-cake.jpg",
-    tags: ["dol"]
-  },
 
   // 선물세트 신규
   {
